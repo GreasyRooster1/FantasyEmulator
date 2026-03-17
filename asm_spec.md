@@ -69,7 +69,7 @@ OPCODE | DBG  |
 
 
 ### BRANCH Operations
-- 0000
+- 0000 -> Jump
 - 0001 -> Equals
 - 0010 -> Not Equals
 - 0011 -> Greater Than
