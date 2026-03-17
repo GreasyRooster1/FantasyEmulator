@@ -1,0 +1,45 @@
+# ASM Spec
+
+### Instruction Set
+```
+0000 -> NOP
+0001 -> ADD
+0010 -> SUB
+0011 -> MUL
+0100 -> DIV
+0101 -> 
+0111 -> NOT
+0110 -> REM
+1000 -> AND
+1001 -> OR 
+1010 -> XOR
+1011 -> PEEK
+1100 -> POKER
+1101 -> LODI
+1110 -> JMP
+1111 ->
+```
+
+```
+ 0000    0000   0000   0000
+OPCODE | ARG1 | ARG2 | ARG3
+```
+
+### PEEK
+```
+ 1011    0000  0000   0000
+OPCODE | MEMORY LOC | REG
+```
+
+### POKE
+```
+ 1100    0000  0000   0000
+OPCODE | MEMORY LOC | REG
+```
+
+### LODI
+```
+ 1101    0000   0000 0000
+OPCODE | REG  | IMMEDIATE 
+```
+
