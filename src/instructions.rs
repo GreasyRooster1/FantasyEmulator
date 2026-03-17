@@ -1,0 +1,4 @@
+
+trait Instruction{
+    fn execute();
+}
