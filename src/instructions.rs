@@ -1,18 +1,21 @@
-struct InstructionArgs {
+pub struct InstructionArgs {
     data: u32,
 }
 
 impl InstructionArgs {
-    fn from_bytes(bytes: Vec<u8>) -> InstructionArgs {
+    pub fn from_bytes(bytes: Vec<u8>) -> InstructionArgs {
         let mut data: u32 = 0;
         let total_bits = bytes.len() * 8;
         for i in 0..bytes.len() {
-            data += (bytes[i] as u32) << (i * 8 - total_bits);
+            let shift_num = (bytes.len() as i32 - i as i32).abs() as usize - 1;
+            println!("{shift_num}");
+            data += (bytes[i] as u32) << (total_bits - shift_num * 8);
         }
+        data = data << (32 - total_bits);
         InstructionArgs { data }
     }
 
-    fn opcode(&self) -> u8 {
+    pub fn opcode(&self) -> u8 {
         (self.data >> 28) as u8
     }
 }

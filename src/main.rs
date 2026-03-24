@@ -1,4 +1,5 @@
 mod instructions;
+mod tests;
 
 use bevy::prelude::*;
 
