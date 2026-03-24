@@ -18,6 +18,11 @@ impl InstructionArgs {
     pub fn opcode(&self) -> u8 {
         (self.data >> 28) as u8
     }
+
+    pub fn get_nibble(&self, i: u32) -> u8 {
+        let nib_idx = i + 2;
+        (self.data >> (32 - nib_idx * 4)) as u8 && 0x0F
+    }
 }
 
 trait Instruction {
