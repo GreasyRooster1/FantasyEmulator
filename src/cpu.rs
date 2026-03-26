@@ -19,6 +19,11 @@ impl Emulator{
         }
     }
 
+    pub fn boot(&mut self,disk_path:String){
+        self.install_rom_disk(disk_path);
+        self.load_rom_to_memory(0x0000,self.rom_disk.len() as u16);
+    }
+
     pub fn cpu_cycle(&mut self){
         let pc_memory_value = self.physical_memory[self.registers[PC_REGISTER] as usize];
         let opcode_nibble = get_nibble_from_byte(pc_memory_value as u32, 0);
@@ -29,6 +34,15 @@ impl Emulator{
         let bytes: Vec<u8> = fs::read(path).unwrap();
         for i in 0..bytes.len() {
             let byte = bytes[i];
+            self.rom_disk[i] = byte;
+        }
+    }
+
+    pub fn load_rom_to_memory(&mut self, start_address: u16, amount: u16) {
+        let start = start_address as usize;
+        let end = start + amount as usize;
+        for i in start..end {
+            let byte = self.rom_disk[i];
             self.rom_disk[i] = byte;
         }
     }
