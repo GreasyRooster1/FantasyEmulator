@@ -9,6 +9,5 @@ struct Emulator {
 
 impl Emulator{
     pub fn cpu_cycle(&mut self){
-
     }
 }
