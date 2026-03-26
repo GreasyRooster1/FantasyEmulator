@@ -10,11 +10,11 @@ impl InstructionArgs {
         let mut data: u32 = 0;
         let total_bits = bytes.len() * 8;
         for i in 0..bytes.len() {
-            let shift_num = (bytes.len() as i32 - i as i32).abs() as usize - 1;
+            let shift_num = (bytes.len() as i32 - i as i32).abs() as usize;
             println!("{shift_num}");
-            data += (bytes[i] as u32) << (total_bits - shift_num * 8);
+            data += (bytes[i] as u32) << (32 - (i + 1) * 8);
         }
-        data = data << (32 - total_bits);
+        //data = data << (32 - total_bits);
         InstructionArgs { data }
     }
 
