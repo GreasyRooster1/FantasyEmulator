@@ -2,15 +2,17 @@ use bevy::prelude::Resource;
 use crate::{get_nibble_from_byte, MEM_SIZE, PC_REGISTER, REGISTER_COUNT};
 
 #[derive(Resource)]
-struct Emulator {
+pub struct Emulator {
     physical_memory: [u8; MEM_SIZE],
     registers: [u8; REGISTER_COUNT],
 }
 
 impl Emulator{
-    pub fn hardware_setup(&mut self){
-        self.physical_memory.fill(0);
-        self.registers.fill(0);
+    pub fn hardware_setup() -> Emulator {
+        Emulator {
+            physical_memory: [0; MEM_SIZE],
+            registers: [0; REGISTER_COUNT],
+        }
     }
     pub fn cpu_cycle(&mut self){
         let pc_memory_value = self.physical_memory[self.registers[PC_REGISTER] as usize];

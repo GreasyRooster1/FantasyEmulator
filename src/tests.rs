@@ -3,6 +3,7 @@
 mod tests {
 
     use crate::instructions::*;
+    use crate::cpu::*;
 
     #[test]
     fn test_args_opcode() {
@@ -18,5 +19,10 @@ mod tests {
         let args = InstructionArgs::from_bytes(data);
         println!("{0}", args.opcode());
         assert_eq!(args.get_nibble(1), 0b0000_0010);
+    }
+    
+    #[test]
+    fn test_boot(){
+        let emulator = Emulator::hardware_setup();
     }
 }
