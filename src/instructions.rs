@@ -23,6 +23,7 @@ impl InstructionArgs {
     }
 
     pub fn get_nibble(&self, i: u32) -> u8 {
+        dbg!(format!("{:#b}", self.data));
         get_nibble_from_byte(self.data, i)
     }
 }
@@ -42,7 +43,14 @@ impl Instruction for ADD {
         let a = emulator.registers[args.get_nibble(1) as usize];
         let b = emulator.registers[args.get_nibble(2) as usize];
         let c = a + b;
-        dbg!(a, b, c, args.get_nibble(1), args.get_nibble(2));
+        dbg!(
+            a,
+            b,
+            c,
+            args.get_nibble(1),
+            args.get_nibble(2),
+            args.get_nibble(3)
+        );
         emulator.registers[args.get_nibble(3) as usize] = c;
     }
     fn bytes_len(&self) -> i32 {

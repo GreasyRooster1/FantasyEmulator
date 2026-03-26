@@ -44,7 +44,7 @@ mod tests {
 
     #[test]
     fn nibble() {
-        let data = 0b1001_0011_1100_1111;
+        let data = 0b1001_0011_1100_1111_0000_0000_0000_0000;
         assert_eq!(get_nibble_from_byte(data, 0), 0b00001001);
         assert_eq!(get_nibble_from_byte(data, 1), 0b00000011);
         assert_eq!(get_nibble_from_byte(data, 2), 0b00001100);
