@@ -27,28 +27,28 @@ impl InstructionArgs {
     }
 }
 
-trait Instruction {
-    fn execute(emulator: &mut Emulator, args: InstructionArgs);
+pub trait Instruction {
+    fn execute(&self, emulator: &mut Emulator, args: InstructionArgs);
 
-    fn bytes_len() -> i32;
+    fn bytes_len(&self) -> i32;
 
-    fn opcode() -> u8;
+    fn opcode(&self) -> u8;
 }
 
-struct ADD;
+pub struct ADD;
 
 impl Instruction for ADD {
-    fn execute(emulator: &mut Emulator, args: InstructionArgs) {
+    fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
         let a = emulator.registers[args.get_nibble(1) as usize];
         let b = emulator.registers[args.get_nibble(2) as usize];
         let c = a + b;
         emulator.registers[args.get_nibble(3) as usize] = c;
     }
-    fn bytes_len() -> i32 {
+    fn bytes_len(&self) -> i32 {
         2
     }
 
-    fn opcode() -> u8 {
+    fn opcode(&self) -> u8 {
         0b0001
     }
 }

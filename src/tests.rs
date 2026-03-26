@@ -27,4 +27,16 @@ mod tests {
         emulator.boot("./data/test_rom.rom".to_string());
         emulator.cpu_cycle();
     }
+
+    #[test]
+    fn test_instruct_add() {
+        let mut emulator = Emulator::hardware_setup();
+        let data = vec![0b0001_0001, 0b0010_0011];
+        let args = InstructionArgs::from_bytes(data);
+        emulator.registers[1] = 2;
+        emulator.registers[2] = 3;
+
+        ADD.execute(&mut emulator, args);
+        assert_eq!(emulator.registers[3], 5);
+    }
 }
