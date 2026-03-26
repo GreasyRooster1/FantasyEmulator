@@ -21,7 +21,7 @@ impl InstructionArgs {
 
     pub fn get_nibble(&self, i: u32) -> u8 {
         let nib_idx = i + 2;
-        (self.data >> (32 - nib_idx * 4)) as u8 && 0x0F
+        (self.data >> (32 - nib_idx * 4)) as u8 & 0x0F
     }
 }
 
