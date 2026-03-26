@@ -13,3 +13,8 @@ const PC_REGISTER: usize = 0xE;
 fn main() {
     App::new().add_plugins(DefaultPlugins).run();
 }
+
+pub fn get_nibble_from_byte(data:u32,i: u32) -> u8 {
+    let nib_idx = i + 1;
+    (data >> (32 - nib_idx * 4)) as u8 & 0x0F
+}

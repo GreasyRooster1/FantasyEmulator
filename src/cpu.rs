@@ -13,5 +13,6 @@ impl Emulator{
         self.registers.fill(0);
     }
     pub fn cpu_cycle(&mut self){
+
     }
 }

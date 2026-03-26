@@ -1,3 +1,5 @@
+use crate::get_nibble_from_byte;
+
 pub struct InstructionArgs {
     data: u32,
 }
@@ -20,8 +22,7 @@ impl InstructionArgs {
     }
 
     pub fn get_nibble(&self, i: u32) -> u8 {
-        let nib_idx = i + 1;
-        (self.data >> (32 - nib_idx * 4)) as u8 & 0x0F
+        get_nibble_from_byte(self.data,i)
     }
 }
 
