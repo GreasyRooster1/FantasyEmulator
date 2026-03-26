@@ -31,13 +31,13 @@ mod tests {
     #[test]
     fn test_instruct_add() {
         let mut emulator = Emulator::hardware_setup();
-        let data = vec![0b0001_0001, 0b0010_0011];
+        let data = vec![0b1111_0001, 0b0010_0011];
         let args = InstructionArgs::from_bytes(data);
         emulator.registers[1] = 2;
         emulator.registers[2] = 3;
 
         ADD.execute(&mut emulator, args);
-        dbg!(emulator);
+        dbg!(&emulator.registers);
         assert_eq!(emulator.registers[3], 5);
     }
 }
