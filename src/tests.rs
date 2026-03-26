@@ -2,8 +2,8 @@
 #[allow(clippy::module_inception)]
 mod tests {
 
-    use crate::instructions::*;
     use crate::cpu::*;
+    use crate::instructions::*;
 
     #[test]
     fn test_args_opcode() {
@@ -22,8 +22,9 @@ mod tests {
     }
 
     #[test]
-    fn test_boot(){
+    fn test_boot() {
         let mut emulator = Emulator::hardware_setup();
+        emulator.boot("./data/test_rom.rom".to_string());
         emulator.cpu_cycle();
     }
 }
