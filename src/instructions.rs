@@ -36,14 +36,14 @@ trait Instruction {
 struct ADD;
 
 impl Instruction for ADD {
+    fn execute(args: InstructionArgs) {
+        println!("{0}", args.opcode());
+    }
     fn bytes_len() -> i32 {
         2
     }
+
     fn opcode() -> u8 {
         0b0001
-    }
-
-    fn execute(args: InstructionArgs) {
-        println!("{0}", args.opcode());
     }
 }
