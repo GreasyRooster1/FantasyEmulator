@@ -23,14 +23,14 @@
 ```
  0000    0000 0000 0000 0000 0000
 OPCODE |        ARG SPACE         |
+```
 
 ### Math ops (ADD, SUB, etc)
 2 bytes
 ```
-```
-```
 0000      0000   0000      0000
 OPCODE | REG A | REG B | REG OUT |
+```
 
 ### PEEK
 2 bytes
