@@ -10,6 +10,7 @@ pub struct Emulator {
 }
 
 impl Emulator{
+
     pub fn hardware_setup() -> Emulator {
         Emulator {
             physical_memory: [0; MEM_SIZE],
@@ -17,11 +18,13 @@ impl Emulator{
             rom_disk: [0; ROM_SIZE],
         }
     }
+
     pub fn cpu_cycle(&mut self){
         let pc_memory_value = self.physical_memory[self.registers[PC_REGISTER] as usize];
         let opcode_nibble = get_nibble_from_byte(pc_memory_value as u32, 0);
         println!("{:#b}", opcode_nibble);
     }
+
     pub fn install_rom_disk(&mut self, path: String) {
         let bytes: Vec<u8> = fs::read(path).unwrap();
         for i in 0..bytes.len() {
