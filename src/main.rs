@@ -9,7 +9,7 @@ const REGISTER_COUNT: usize = 16; // limited by asm arguments
 #[derive(Resource)]
 struct Emulator {
     physical_memory: [u8; MEM_SIZE],
-    registers: [u8; MEM_SIZE],
+    registers: [u8; REGISTER_COUNT],
 }
 
 
