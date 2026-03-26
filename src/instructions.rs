@@ -1,3 +1,4 @@
+use crate::cpu::Emulator;
 use crate::get_nibble_from_byte;
 
 pub struct InstructionArgs {
@@ -22,7 +23,7 @@ impl InstructionArgs {
     }
 
     pub fn get_nibble(&self, i: u32) -> u8 {
-        get_nibble_from_byte(self.data,i)
+        get_nibble_from_byte(self.data, i)
     }
 }
 
@@ -37,8 +38,11 @@ trait Instruction {
 struct ADD;
 
 impl Instruction for ADD {
-    fn execute(args: InstructionArgs) {
-        println!("{0}", args.opcode());
+    fn execute(emulator: &mut Emulator, args: InstructionArgs) {
+        let a = emulator.registers[args.get_nibble(1)];
+        let b = emulator.registers[args.get_nibble(2)];
+        let c = a + b;
+        emulator.registers[args.get_nibble(3)] = c;
     }
     fn bytes_len() -> i32 {
         2
