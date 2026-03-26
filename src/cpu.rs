@@ -4,9 +4,9 @@ use std::fs;
 
 #[derive(Resource)]
 pub struct Emulator {
-    physical_memory: [u8; MEM_SIZE],
-    registers: [u8; REGISTER_COUNT],
-    rom_disk: [u8; ROM_SIZE],
+    pub physical_memory: [u8; MEM_SIZE],
+    pub registers: [u8; REGISTER_COUNT],
+    pub rom_disk: [u8; ROM_SIZE],
 }
 
 impl Emulator {
