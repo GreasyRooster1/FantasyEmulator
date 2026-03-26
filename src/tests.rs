@@ -37,6 +37,7 @@ mod tests {
         emulator.registers[2] = 3;
 
         ADD.execute(&mut emulator, args);
+        dbg!(emulator);
         assert_eq!(emulator.registers[3], 5);
     }
 }

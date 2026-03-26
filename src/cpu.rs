@@ -2,7 +2,7 @@ use crate::{MEM_SIZE, PC_REGISTER, REGISTER_COUNT, ROM_SIZE, get_nibble_from_byt
 use bevy::prelude::Resource;
 use std::fs;
 
-#[derive(Resource)]
+#[derive(Resource, Debug)]
 pub struct Emulator {
     pub physical_memory: [u8; MEM_SIZE],
     pub registers: [u8; REGISTER_COUNT],
