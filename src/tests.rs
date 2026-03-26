@@ -20,9 +20,10 @@ mod tests {
         println!("{0}", args.opcode());
         assert_eq!(args.get_nibble(1), 0b0000_0010);
     }
-    
+
     #[test]
     fn test_boot(){
-        let emulator = Emulator::hardware_setup();
+        let mut emulator = Emulator::hardware_setup();
+        emulator.cpu_cycle();
     }
 }
