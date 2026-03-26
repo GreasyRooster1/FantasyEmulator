@@ -3,6 +3,7 @@
 mod tests {
 
     use crate::cpu::*;
+    use crate::get_nibble_from_byte;
     use crate::instructions::*;
 
     #[test]
@@ -39,5 +40,14 @@ mod tests {
         ADD.execute(&mut emulator, args);
         dbg!(&emulator.registers);
         assert_eq!(emulator.registers[3], 5);
+    }
+
+    #[test]
+    fn nibble() {
+        let data = 0b1001_0011_1100_1111;
+        assert_eq!(get_nibble_from_byte(data, 0), 0b1001);
+        assert_eq!(get_nibble_from_byte(data, 1), 0b0011);
+        assert_eq!(get_nibble_from_byte(data, 2), 0b1100);
+        assert_eq!(get_nibble_from_byte(data, 3), 0b1111);
     }
 }
