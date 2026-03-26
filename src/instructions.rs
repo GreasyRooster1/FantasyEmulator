@@ -28,7 +28,7 @@ impl InstructionArgs {
 }
 
 trait Instruction {
-    fn execute(args: InstructionArgs);
+    fn execute(emulator: &mut Emulator, args: InstructionArgs);
 
     fn bytes_len() -> i32;
 
