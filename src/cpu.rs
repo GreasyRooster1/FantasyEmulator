@@ -8,6 +8,10 @@ struct Emulator {
 }
 
 impl Emulator{
+    pub fn hardware_setup(&mut self){
+        self.physical_memory.fill(0);
+        self.registers.fill(0);
+    }
     pub fn cpu_cycle(&mut self){
     }
 }
