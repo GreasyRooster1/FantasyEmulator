@@ -98,5 +98,13 @@ mod tests {
         dbg!(&emulator.registers);
         assert_eq!(emulator.registers[1], 0b00001011);
     }
+    #[test]
+    fn test_instruct_and() {
+        test_math_instruct(&AND, 0b11001100, 0b10111011, 0b10001000);
+    }
+    #[test]
+    fn test_instruct_or() {
+        test_math_instruct(&OR, 0b01001000, 0b10110110, 0b11111110);
+    }
 
 }
