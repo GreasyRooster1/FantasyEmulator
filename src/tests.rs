@@ -6,6 +6,18 @@ mod tests {
     use crate::get_nibble_from_byte;
     use crate::instructions::*;
 
+    fn test_instruct(instruct: &impl Instruction,a:u8, b:u8, expected:u8) {
+        let mut emulator = Emulator::hardware_setup();
+        let data = vec![0b1111_0001, 0b0010_0011];
+        let args = InstructionArgs::from_bytes(data);
+        emulator.registers[1] = a;
+        emulator.registers[2] = b;
+
+        instruct.execute(&mut emulator, args);
+        dbg!(&emulator.registers);
+        assert_eq!(emulator.registers[3], expected);
+    }
+
     #[test]
     fn test_args_opcode() {
         let data = vec![0b01010000, 0b11110000];
@@ -31,15 +43,7 @@ mod tests {
 
     #[test]
     fn test_instruct_add() {
-        let mut emulator = Emulator::hardware_setup();
-        let data = vec![0b1111_0001, 0b0010_0011];
-        let args = InstructionArgs::from_bytes(data);
-        emulator.registers[1] = 2;
-        emulator.registers[2] = 3;
-
-        ADD.execute(&mut emulator, args);
-        dbg!(&emulator.registers);
-        assert_eq!(emulator.registers[3], 5);
+        test_instruct(&ADD, 4, 5, 9);
     }
 
     #[test]
