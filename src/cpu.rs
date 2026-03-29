@@ -36,12 +36,26 @@ impl Emulator {
     }
 
     pub fn match_instruction_opcode(&self, opcode: u8) -> Box<dyn Instruction>{
-        let op = match opcode {
-            0b0000 => NOP,
+        match opcode {
+            0b0000 => Box::new(NOP),
+            0b0001 => Box::new(ADD),
+            0b0010 => Box::new(SUB),
+            0b0011 => Box::new(MUL),
+            0b0100 => Box::new(DIV),
+            0b0101 => Box::new(NOP),  //placeholder
+            0b0110 => Box::new(REM),
+            0b0111 => Box::new(NOT),
+            0b1000 => Box::new(AND),
+            0b1001 => Box::new(OR),
+            0b1010 => Box::new(XOR),
+            0b1011 => Box::new(PEEK),
+            0b1100 => Box::new(POKE),
+            0b1101 => Box::new(LODI),
+            0b1110 => Box::new(BRANCH),
+            0b1111 => Box::new(NOP),  //placeholder
 
-            _ => {println!("Unknown opcode {:#b}", opcode); NOP},
-        };
-        Box::new(op)
+            _ => {println!("Unknown opcode {:#b}", opcode); Box::new(NOP)},
+        }
     }
 
     pub fn install_rom_disk(&mut self, path: String) {
