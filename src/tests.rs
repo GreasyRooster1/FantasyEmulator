@@ -130,5 +130,13 @@ mod tests {
         POKE.execute(&mut emulator, args);
         assert_eq!(emulator.physical_memory[0b0110_1001], 0xFA);
     }
+    #[test]
+    fn test_lodi(){
+        let mut emulator = Emulator::hardware_setup();
+        let data = vec![0b1101_0001, 0b1001_0001];
+        let args = InstructionArgs::from_bytes(data);
+        LODI.execute(&mut emulator, args);
+        assert_eq!(emulator.registers[1], 0b1001_0001);
+    }
 
 }
