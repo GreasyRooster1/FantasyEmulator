@@ -32,7 +32,18 @@ impl Emulator {
     pub fn cpu_cycle(&mut self) {
         let pc_memory_value = self.physical_memory[self.registers[PC_REGISTER] as usize];
         let opcode_nibble = get_nibble_from_byte(pc_memory_value as u32, 0);
-        println!("{:#b}", opcode_nibble);
+        let instruction = self.match_instruction_opcode(opcode_nibble);
+
+        let instruction_len = instruction.bytes_len();
+        let mut instruction_data: Vec<u8> = vec![];
+        for i in 0..instruction.bytes_len() {
+            let pc = self.registers[PC_REGISTER] as usize;
+            let val = self.physical_memory[(pc+i as usize) % MEM_SIZE];
+            instruction_data.push(val);
+        }
+
+        let args = InstructionArgs::from_bytes(instruction_data);
+        instruction.execute(self,args);
     }
 
     pub fn match_instruction_opcode(&self, opcode: u8) -> Box<dyn Instruction>{
