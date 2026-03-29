@@ -49,6 +49,7 @@ where
     emulator.registers[args.get_nibble(3) as usize] = c;
 }
 
+pub struct NOP;
 pub struct ADD;
 pub struct SUB;
 pub struct MUL;
@@ -63,6 +64,20 @@ pub struct PEEK;
 pub struct POKE;
 pub struct LODI;
 pub struct BRANCH;
+
+impl Instruction for NOP {
+    fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
+
+    }
+    fn bytes_len(&self) -> i32 {
+        1
+    }
+
+    fn opcode(&self) -> u8 {
+        0b0000
+    }
+}
+
 
 impl Instruction for ADD {
     fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {

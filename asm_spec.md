@@ -67,14 +67,6 @@ OPCODE | REG  | IMMEDIATE
 OPCODE | REG 1 | OPERATION | REG 2 | MEM LOC   |
 ```
 
-### NOP
-1 byte
-```
- 0000  | 0001 |
-OPCODE | DBG  |
-```
-
-
 ### BRANCH Operations
 - 0000 -> Jump
 - 0001 -> Equals
@@ -83,4 +75,18 @@ OPCODE | DBG  |
 - 0100 -> Greater Than or Equals
 - 0101 -> Less Then
 - 0110 -> Less Then or Equals
-- 0111 -> 
+- 0111 ->
+
+### NOP
+1 byte
+```
+ 0000  | 0001 |
+OPCODE | DBG  |
+```
+
+### Debug Operations
+- 0000 -> None
+- 0001 -> Register Dump
+- 0010 -> Report memory to file
+- 0011 -> Report ROM to file
+- 0100 -> 
