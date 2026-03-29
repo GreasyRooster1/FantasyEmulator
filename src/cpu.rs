@@ -5,6 +5,7 @@ use std::fs::File;
 use std::io::Write;
 
 const DBG_MEM_REPORT_FILE: &str = "./mem_dump.log";
+const DBG_ROM_REPORT_FILE: &str = "./rom_dump.log";
 
 #[derive(Resource, Debug)]
 pub struct Emulator {
@@ -57,6 +58,12 @@ impl Emulator {
         let mut file = File::create(DBG_MEM_REPORT_FILE).unwrap();
         file.write_all(&self.physical_memory).unwrap();
         println!("finished debug memory report at {DBG_MEM_REPORT_FILE}");
+    }
+    pub fn debug_rom_report(&self){
+        println!("starting debug rom report...");
+        let mut file = File::create(DBG_ROM_REPORT_FILE).unwrap();
+        file.write_all(&self.rom_disk).unwrap();
+        println!("finished debug rom report at {DBG_ROM_REPORT_FILE}");
     }
 }
 
