@@ -185,13 +185,30 @@ impl Instruction for XOR {
 
 impl Instruction for PEEK {
     fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
-        math_instruction_execute(emulator, args, |a,b| a^b);
+        let mem_loc = args.get_byte(1) as usize;
+        let reg = emulator.registers[args.get_nibble(3) as usize];
+        emulator.registers[args.get_nibble(3) as usize] = emulator.physical_memory[mem_loc];
     }
     fn bytes_len(&self) -> i32 {
         2
     }
 
     fn opcode(&self) -> u8 {
-        0b1010
+        0b1011
+    }
+}
+
+impl Instruction for POKE {
+    fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
+        let mem_loc = args.get_byte(1) as usize;
+        let reg = emulator.registers[args.get_nibble(3) as usize];
+        emulator.physical_memory[mem_loc] = emulator.registers[args.get_nibble(3) as usize];
+    }
+    fn bytes_len(&self) -> i32 {
+        2
+    }
+
+    fn opcode(&self) -> u8 {
+        0b1100
     }
 }
