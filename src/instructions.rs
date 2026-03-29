@@ -69,7 +69,8 @@ impl Instruction for NOP {
     fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
         match args.get_nibble(1) {
             0b0001 => {dbg!(emulator.registers);},
-            0b0010 => {dbg!(emulator.registers);},
+            0b0010 => {emulator.debug_memory_report()},
+            0b0011 => {emulator.debug_rom_report()},
             _ => {},
         };
     }
