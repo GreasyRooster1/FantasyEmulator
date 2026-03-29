@@ -51,7 +51,7 @@ pub struct SUB;
 
 impl Instruction for ADD {
     fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
-
+        math_instruction_execute(emulator, args, |a,b| a+b);
     }
     fn bytes_len(&self) -> i32 {
         2
