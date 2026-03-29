@@ -124,6 +124,19 @@ impl Instruction for NOT {
     }
 
     fn opcode(&self) -> u8 {
+        0b0110
+    }
+}
+
+impl Instruction for REM {
+    fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
+        math_instruction_execute(emulator, args, |a,b| a.wrapping_rem(b));
+    }
+    fn bytes_len(&self) -> i32 {
+        2
+    }
+
+    fn opcode(&self) -> u8 {
         0b0111
     }
 }
