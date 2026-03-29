@@ -2,7 +2,9 @@ mod cpu;
 mod instructions;
 mod tests;
 
+use std::thread;
 use bevy::prelude::*;
+use crate::cpu::Emulator;
 
 const MEM_SIZE: usize = 65_535; //limited by 8bit bytes
 const ROM_SIZE: usize = 65_535; //limited by 8bit bytes
@@ -11,7 +13,23 @@ const RA_REGISTER: usize = 0xF;
 const PC_REGISTER: usize = 0xE;
 
 fn main() {
-    App::new().add_plugins(DefaultPlugins).run();
+    App::new()
+        .add_plugins(DefaultPlugins)
+        .insert_resource(Emulator::hardware_setup())
+        .add_systems(Startup, boot_cpu)
+        .add_systems(Update, cpu_cycle)
+        .run();
+}
+
+fn boot_cpu(mut emulator:ResMut<Emulator>){
+    emulator.boot("./boot/boot.rom".to_string());
+}
+
+fn cpu_cycle(mut emulator:ResMut<Emulator>){
+    if !emulator.running() {
+        return;
+    }
+    emulator.cpu_cycle();
 }
 
 pub fn get_nibble_from_byte(data: u32, i: u32) -> u8 {

@@ -76,6 +76,9 @@ impl Emulator {
     pub fn halt(&mut self){
         self.is_running = false;
     }
+    pub fn running(&self) -> bool{
+        self.is_running
+    }
 
     pub fn install_rom_disk(&mut self, path: String) {
         let bytes: Vec<u8> = fs::read(path).unwrap();
