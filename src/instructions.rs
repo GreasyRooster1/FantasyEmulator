@@ -235,8 +235,9 @@ impl Instruction for POKE {
 
 impl Instruction for LODI {
     fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
-        let reg = emulator.registers[args.get_nibble(1) as usize];
+        let reg =args.get_nibble(1) as usize;
         let imm = args.get_byte(2);
+        dbg!(imm,reg);
         emulator.registers[reg as usize] = imm;
     }
     fn bytes_len(&self) -> i32 {
