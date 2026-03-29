@@ -45,6 +45,10 @@ mod tests {
     fn test_instruct_add() {
         test_instruct(&ADD, 4, 5, 9);
     }
+    #[test]
+    fn test_instruct_sub() {
+        test_instruct(&SUB, 9, 5, 4);
+    }
 
     #[test]
     fn nibble() {

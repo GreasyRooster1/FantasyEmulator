@@ -36,15 +36,22 @@ pub trait Instruction {
     fn opcode(&self) -> u8;
 }
 
+pub fn math_instruction_execute<F>(emulator: &mut Emulator, args: InstructionArgs, op:F)
+where
+    F: Fn(u8,u8) -> u8,
+{
+    let a = emulator.registers[args.get_nibble(1) as usize];
+    let b = emulator.registers[args.get_nibble(2) as usize];
+    let c = op(a,b);
+    emulator.registers[args.get_nibble(3) as usize] = c;
+}
+
 pub struct ADD;
 pub struct SUB;
 
 impl Instruction for ADD {
     fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
-        let a = emulator.registers[args.get_nibble(1) as usize];
-        let b = emulator.registers[args.get_nibble(2) as usize];
-        let c = a + b;
-        emulator.registers[args.get_nibble(3) as usize] = c;
+
     }
     fn bytes_len(&self) -> i32 {
         2
