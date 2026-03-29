@@ -42,20 +42,45 @@ mod tests {
     }
 
     #[test]
-    fn test_instruct_add() {
-        test_instruct(&ADD, 4, 5, 9);
-    }
-    #[test]
-    fn test_instruct_sub() {
-        test_instruct(&SUB, 9, 5, 4);
-    }
-
-    #[test]
     fn nibble() {
         let data = 0b1001_0011_1100_1111_0000_0000_0000_0000;
         assert_eq!(get_nibble_from_byte(data, 0), 0b0000_1001);
         assert_eq!(get_nibble_from_byte(data, 1), 0b0000_0011);
         assert_eq!(get_nibble_from_byte(data, 2), 0b0000_1100);
         assert_eq!(get_nibble_from_byte(data, 3), 0b0000_1111);
+    }
+
+    /* Instruction Tests */
+    #[test]
+    fn test_instruct_add() {
+        test_instruct(&ADD, 4, 5, 9);
+    }
+    #[test]
+    fn test_instruct_add_overflow() {
+        test_instruct(&ADD, 200, 57, 1);
+    }
+    #[test]
+    fn test_instruct_sub() {
+        test_instruct(&SUB, 9, 5, 4);
+    }
+    #[test]
+    fn test_instruct_sub_overflow() {
+        test_instruct(&SUB, 10, 11, 255);
+    }
+    #[test]
+    fn test_instruct_mul() {
+        test_instruct(&MUL, 10, 5, 50);
+    }
+    #[test]
+    fn test_instruct_mul_overflow() {
+        test_instruct(&MUL, 128, 2, 0);
+    }
+    #[test]
+    fn test_instruct_div() {
+        test_instruct(&DIV, 100, 2, 50);
+    }
+    #[test]
+    fn test_instruct_div_round() {
+        test_instruct(&DIV, 100, 3, 33);
     }
 }
