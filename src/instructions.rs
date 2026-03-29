@@ -252,9 +252,10 @@ impl Instruction for LODI {
 impl Instruction for BRANCH {
     fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
         let reg_a = emulator.registers[args.get_nibble(1) as usize];
-        let op = emulator.registers[args.get_nibble(2) as usize];
+        let op = args.get_nibble(2);
         let reg_b = emulator.registers[args.get_nibble(3) as usize];
-        let mem_loc = emulator.registers[args.get_byte(4) as usize];
+        let mem_loc = args.get_byte(4);
+        dbg!(reg_a, op, reg_b, mem_loc);
         let result = match op {
             0b0000 => true,
             0b0001 => reg_a == reg_b,

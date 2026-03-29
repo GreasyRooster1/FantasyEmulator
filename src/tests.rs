@@ -3,7 +3,7 @@
 mod tests {
 
     use crate::cpu::*;
-    use crate::get_nibble_from_byte;
+    use crate::{get_nibble_from_byte, PC_REGISTER};
     use crate::instructions::*;
 
     fn test_math_instruct(instruct: &impl Instruction, a:u8, b:u8, expected:u8) {
@@ -137,6 +137,17 @@ mod tests {
         let args = InstructionArgs::from_bytes(data);
         LODI.execute(&mut emulator, args);
         assert_eq!(emulator.registers[1], 0b1001_0001);
+    }
+
+    #[test]
+    fn test_branch(){
+        let mut emulator = Emulator::hardware_setup();
+        let data = vec![0b1110_0001, 0b0011_0010, 0b0110_1010];
+        let args = InstructionArgs::from_bytes(data);
+        emulator.registers[1] = 0xFF;
+        emulator.registers[2] = 0xFB;
+        BRANCH.execute(&mut emulator, args);
+        assert_eq!(emulator.registers[PC_REGISTER], 0b0110_1010);
     }
 
 }
