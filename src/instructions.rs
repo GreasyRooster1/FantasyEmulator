@@ -48,6 +48,18 @@ where
 
 pub struct ADD;
 pub struct SUB;
+pub struct MUL;
+pub struct DIV;
+
+pub struct NOT;
+pub struct REM;
+pub struct AND;
+pub struct OR;
+pub struct XOR;
+pub struct PEEK;
+pub struct POKE;
+pub struct LODI;
+pub struct BRANCH;
 
 impl Instruction for ADD {
     fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
@@ -64,10 +76,7 @@ impl Instruction for ADD {
 
 impl Instruction for SUB {
     fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
-        let a = emulator.registers[args.get_nibble(1) as usize];
-        let b = emulator.registers[args.get_nibble(2) as usize];
-        let c = a - b;
-        emulator.registers[args.get_nibble(3) as usize] = c;
+        math_instruction_execute(emulator, args, |a,b| a-b);
     }
     fn bytes_len(&self) -> i32 {
         2
