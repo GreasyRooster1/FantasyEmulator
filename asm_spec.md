@@ -32,6 +32,13 @@ OPCODE |        ARG SPACE         |
 OPCODE | REG A | REG B | REG OUT |
 ```
 
+### NOT
+1 bytes
+```
+0000     0000
+OPCODE | REG 
+```
+
 ### PEEK
 2 bytes
 ```

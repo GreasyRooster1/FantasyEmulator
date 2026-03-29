@@ -86,3 +86,44 @@ impl Instruction for SUB {
         0b0010
     }
 }
+
+impl Instruction for MUL {
+    fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
+        math_instruction_execute(emulator, args, |a,b| a*b);
+    }
+    fn bytes_len(&self) -> i32 {
+        2
+    }
+
+    fn opcode(&self) -> u8 {
+        0b0011
+    }
+}
+
+
+impl Instruction for DIV {
+    fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
+        math_instruction_execute(emulator, args, |a,b| a/b);
+    }
+    fn bytes_len(&self) -> i32 {
+        2
+    }
+
+    fn opcode(&self) -> u8 {
+        0b0100
+    }
+}
+
+impl Instruction for NOT {
+    fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
+        let a = emulator.registers[args.get_nibble(1) as usize];
+        emulator.registers[args.get_nibble(1) as usize] = !a;
+    }
+    fn bytes_len(&self) -> i32 {
+        1
+    }
+
+    fn opcode(&self) -> u8 {
+        0b0111
+    }
+}
