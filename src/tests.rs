@@ -106,5 +106,9 @@ mod tests {
     fn test_instruct_or() {
         test_math_instruct(&OR, 0b01001000, 0b10110110, 0b11111110);
     }
+    #[test]
+    fn test_instruct_xor() {
+        test_math_instruct(&OR, 0b10011100, 0b11001100, 0b1010000);
+    }
 
 }
