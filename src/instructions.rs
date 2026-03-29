@@ -1,5 +1,5 @@
 use crate::cpu::Emulator;
-use crate::get_nibble_from_byte;
+use crate::{get_nibble_from_byte, PC_REGISTER};
 
 pub struct InstructionArgs {
     data: u32,
@@ -225,5 +225,34 @@ impl Instruction for LODI {
 
     fn opcode(&self) -> u8 {
         0b1101
+    }
+}
+
+impl Instruction for BRANCH {
+    fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
+        let reg_a = emulator.registers[args.get_nibble(1) as usize];
+        let op = emulator.registers[args.get_nibble(2) as usize];
+        let reg_b = emulator.registers[args.get_nibble(3) as usize];
+        let mem_loc = emulator.registers[args.get_byte(4) as usize];
+        let result = match op {
+            0b0000 => true,
+            0b0001 => reg_a == reg_b,
+            0b0010 => reg_a != reg_b,
+            0b0011 => reg_a > reg_b,
+            0b0100 => reg_a >= reg_b,
+            0b0101 => reg_a < reg_b,
+            0b0110 => reg_a <= reg_b,
+            _ => false,
+        };
+        if result {
+            emulator.registers[PC_REGISTER] = mem_loc;
+        }
+    }
+    fn bytes_len(&self) -> i32 {
+        3
+    }
+
+    fn opcode(&self) -> u8 {
+        0b1110
     }
 }
