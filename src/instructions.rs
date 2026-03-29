@@ -63,7 +63,7 @@ pub struct BRANCH;
 
 impl Instruction for ADD {
     fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
-        math_instruction_execute(emulator, args, |a,b| a+b);
+        math_instruction_execute(emulator, args, |a,b| a.wrapping_add(b));
     }
     fn bytes_len(&self) -> i32 {
         2
@@ -76,7 +76,7 @@ impl Instruction for ADD {
 
 impl Instruction for SUB {
     fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
-        math_instruction_execute(emulator, args, |a,b| a-b);
+        math_instruction_execute(emulator, args, |a,b| a.wrapping_sub(b));
     }
     fn bytes_len(&self) -> i32 {
         2
@@ -89,7 +89,7 @@ impl Instruction for SUB {
 
 impl Instruction for MUL {
     fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
-        math_instruction_execute(emulator, args, |a,b| a*b);
+        math_instruction_execute(emulator, args, |a,b| a.wrapping_mul(b));
     }
     fn bytes_len(&self) -> i32 {
         2
@@ -103,7 +103,7 @@ impl Instruction for MUL {
 
 impl Instruction for DIV {
     fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
-        math_instruction_execute(emulator, args, |a,b| a/b);
+        math_instruction_execute(emulator, args, |a,b| a.wrapping_div(b));
     }
     fn bytes_len(&self) -> i32 {
         2
