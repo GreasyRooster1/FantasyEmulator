@@ -64,6 +64,7 @@ pub struct PEEK;
 pub struct POKE;
 pub struct LODI;
 pub struct BRANCH;
+pub struct HALT;
 
 impl Instruction for NOP {
     fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
@@ -270,6 +271,20 @@ impl Instruction for BRANCH {
         if result {
             emulator.registers[PC_REGISTER] = mem_loc;
         }
+    }
+    fn bytes_len(&self) -> i32 {
+        3
+    }
+
+    fn opcode(&self) -> u8 {
+        0b1110
+    }
+}
+
+
+impl Instruction for HALT {
+    fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
+        emulator.halt();
     }
     fn bytes_len(&self) -> i32 {
         3

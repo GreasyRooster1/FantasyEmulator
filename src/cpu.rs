@@ -13,6 +13,8 @@ pub struct Emulator {
     pub physical_memory: [u8; MEM_SIZE],
     pub registers: [u8; REGISTER_COUNT],
     pub rom_disk: [u8; ROM_SIZE],
+
+    is_running: bool,
 }
 
 impl Emulator {
@@ -21,12 +23,14 @@ impl Emulator {
             physical_memory: [0; MEM_SIZE],
             registers: [0; REGISTER_COUNT],
             rom_disk: [0; ROM_SIZE],
+            is_running: false,
         }
     }
 
     pub fn boot(&mut self, disk_path: String) {
         self.install_rom_disk(disk_path);
         self.load_rom_to_memory(0x0000, self.rom_disk.len() as u16);
+        self.is_running = true;
     }
 
     pub fn cpu_cycle(&mut self) {
@@ -67,6 +71,10 @@ impl Emulator {
 
             _ => {println!("Unknown opcode {:#b}", opcode); Box::new(NOP)},
         }
+    }
+
+    pub fn halt(&mut self){
+        self.is_running = false;
     }
 
     pub fn install_rom_disk(&mut self, path: String) {

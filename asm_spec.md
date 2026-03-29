@@ -17,7 +17,7 @@
 1100 -> POKE
 1101 -> LODI
 1110 -> BRANCH
-1111 -> 
+1111 -> HALT
 ```
 
 ```
@@ -82,6 +82,13 @@ OPCODE | REG 1 | OPERATION | REG 2 | MEM LOC   |
 ```
  0000  | 0001 |
 OPCODE | DBG  |
+```
+
+### HALT
+1 byte
+```
+ 0000  | 0000 |
+OPCODE | None  |
 ```
 
 ### Debug Operations
