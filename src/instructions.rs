@@ -258,6 +258,7 @@ impl Instruction for BRANCH {
         dbg!(reg_a, op, reg_b, mem_loc);
         let result = match op {
             0b0000 => true,
+            
             0b0001 => reg_a == reg_b,
             0b0010 => reg_a != reg_b,
             0b0011 => reg_a > reg_b,

@@ -3,6 +3,7 @@ use bevy::prelude::Resource;
 use std::fs;
 use std::fs::File;
 use std::io::Write;
+use crate::instructions::*;
 
 const DBG_MEM_REPORT_FILE: &str = "./mem_dump.log";
 const DBG_ROM_REPORT_FILE: &str = "./rom_dump.log";
@@ -32,6 +33,15 @@ impl Emulator {
         let pc_memory_value = self.physical_memory[self.registers[PC_REGISTER] as usize];
         let opcode_nibble = get_nibble_from_byte(pc_memory_value as u32, 0);
         println!("{:#b}", opcode_nibble);
+    }
+
+    pub fn match_instruction_opcode(&self, opcode: u8) -> Box<dyn Instruction>{
+        let op = match opcode {
+            0b0000 => NOP,
+
+            _ => {println!("Unknown opcode {:#b}", opcode); NOP},
+        };
+        Box::new(op)
     }
 
     pub fn install_rom_disk(&mut self, path: String) {
