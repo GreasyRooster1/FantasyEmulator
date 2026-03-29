@@ -51,8 +51,8 @@ pub struct SUB;
 pub struct MUL;
 pub struct DIV;
 
-pub struct NOT;
 pub struct REM;
+pub struct NOT;
 pub struct AND;
 pub struct OR;
 pub struct XOR;
@@ -140,3 +140,44 @@ impl Instruction for REM {
         0b0111
     }
 }
+
+impl Instruction for AND {
+    fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
+        math_instruction_execute(emulator, args, |a,b| a&b);
+    }
+    fn bytes_len(&self) -> i32 {
+        2
+    }
+
+    fn opcode(&self) -> u8 {
+        0b1000
+    }
+}
+
+impl Instruction for OR {
+    fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
+        math_instruction_execute(emulator, args, |a,b| a|b);
+    }
+    fn bytes_len(&self) -> i32 {
+        2
+    }
+
+    fn opcode(&self) -> u8 {
+        0b1001
+    }
+}
+
+impl Instruction for XOR {
+    fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
+        math_instruction_execute(emulator, args, |a,b| a^b);
+    }
+    fn bytes_len(&self) -> i32 {
+        2
+    }
+
+    fn opcode(&self) -> u8 {
+        0b1010
+    }
+}
+
+
