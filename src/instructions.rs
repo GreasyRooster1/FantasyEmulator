@@ -26,6 +26,9 @@ impl InstructionArgs {
         dbg!(format!("{:#b}", self.data));
         get_nibble_from_byte(self.data, i)
     }
+    pub fn get_byte(&self, i: u32) -> u8 {
+        (self.get_nibble(i)<<4)+self.get_nibble(i+1)
+    }
 }
 
 pub trait Instruction {
@@ -180,4 +183,15 @@ impl Instruction for XOR {
     }
 }
 
+impl Instruction for PEEK {
+    fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
+        math_instruction_execute(emulator, args, |a,b| a^b);
+    }
+    fn bytes_len(&self) -> i32 {
+        2
+    }
 
+    fn opcode(&self) -> u8 {
+        0b1010
+    }
+}
