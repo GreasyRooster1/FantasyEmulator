@@ -6,7 +6,7 @@ mod tests {
     use crate::get_nibble_from_byte;
     use crate::instructions::*;
 
-    fn test_instruct(instruct: &impl Instruction,a:u8, b:u8, expected:u8) {
+    fn test_math_instruct(instruct: &impl Instruction, a:u8, b:u8, expected:u8) {
         let mut emulator = Emulator::hardware_setup();
         let data = vec![0b1111_0001, 0b0010_0011];
         let args = InstructionArgs::from_bytes(data);
@@ -53,34 +53,50 @@ mod tests {
     /* Instruction Tests */
     #[test]
     fn test_instruct_add() {
-        test_instruct(&ADD, 4, 5, 9);
+        test_math_instruct(&ADD, 4, 5, 9);
     }
     #[test]
     fn test_instruct_add_overflow() {
-        test_instruct(&ADD, 200, 57, 1);
+        test_math_instruct(&ADD, 200, 57, 1);
     }
     #[test]
     fn test_instruct_sub() {
-        test_instruct(&SUB, 9, 5, 4);
+        test_math_instruct(&SUB, 9, 5, 4);
     }
     #[test]
     fn test_instruct_sub_overflow() {
-        test_instruct(&SUB, 10, 11, 255);
+        test_math_instruct(&SUB, 10, 11, 255);
     }
     #[test]
     fn test_instruct_mul() {
-        test_instruct(&MUL, 10, 5, 50);
+        test_math_instruct(&MUL, 10, 5, 50);
     }
     #[test]
     fn test_instruct_mul_overflow() {
-        test_instruct(&MUL, 128, 2, 0);
+        test_math_instruct(&MUL, 128, 2, 0);
     }
     #[test]
     fn test_instruct_div() {
-        test_instruct(&DIV, 100, 2, 50);
+        test_math_instruct(&DIV, 100, 2, 50);
     }
     #[test]
     fn test_instruct_div_round() {
-        test_instruct(&DIV, 100, 3, 33);
+        test_math_instruct(&DIV, 100, 3, 33);
     }
+    #[test]
+    fn test_instruct_rem() {
+        test_math_instruct(&REM, 4, 3, 1);
+    }
+    #[test]
+    fn test_instruct_not() {
+        let mut emulator = Emulator::hardware_setup();
+        let data = vec![0b1111_0001];
+        let args = InstructionArgs::from_bytes(data);
+        emulator.registers[1] = 0b11110100;
+
+        NOT.execute(&mut emulator, args);
+        dbg!(&emulator.registers);
+        assert_eq!(emulator.registers[1], 0b00001011);
+    }
+
 }
