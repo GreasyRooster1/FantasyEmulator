@@ -1,6 +1,10 @@
 use crate::{MEM_SIZE, PC_REGISTER, REGISTER_COUNT, ROM_SIZE, get_nibble_from_byte};
 use bevy::prelude::Resource;
 use std::fs;
+use std::fs::File;
+use std::io::Write;
+
+const DBG_MEM_REPORT_FILE: &str = "./mem_dump.log";
 
 #[derive(Resource, Debug)]
 pub struct Emulator {
@@ -46,6 +50,13 @@ impl Emulator {
             self.physical_memory[i] = byte;
             rom_idx += 1;
         }
+    }
+
+    pub fn debug_memory_report(&self){
+        println!("starting debug memory report...");
+        let mut file = File::create(DBG_MEM_REPORT_FILE).unwrap();
+        file.write_all(&self.physical_memory).unwrap();
+        println!("finished debug memory report at {DBG_MEM_REPORT_FILE}");
     }
 }
 
