@@ -108,7 +108,7 @@ mod tests {
     }
     #[test]
     fn test_instruct_xor() {
-        test_math_instruct(&OR, 0b10011100, 0b11001100, 0b1010000);
+        test_math_instruct(&XOR, 0b10011100, 0b11001100, 0b1010000);
     }
 
 }
