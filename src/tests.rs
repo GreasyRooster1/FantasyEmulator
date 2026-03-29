@@ -110,5 +110,15 @@ mod tests {
     fn test_instruct_xor() {
         test_math_instruct(&XOR, 0b10011100, 0b11001100, 0b1010000);
     }
+    #[test]
+    fn test_peek(){
+        let mut emulator = Emulator::hardware_setup();
+        let data = vec![0b1011_0110, 0b1001_0001];
+        let args = InstructionArgs::from_bytes(data);
+        emulator.physical_memory[0b0110_1001] = 0xFA;
+
+        PEEK.execute(&mut emulator, args);
+        assert_eq!(emulator.registers[1], 0xFA);
+    }
 
 }
