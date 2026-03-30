@@ -23,7 +23,7 @@ pub struct ScreenMaterial {
 }
 
 #[derive(Component)]
-struct Screen;
+pub struct Screen;
 
 impl Material2d for ScreenMaterial {
     fn fragment_shader() -> ShaderRef {
@@ -52,7 +52,7 @@ pub fn setup_screen(
     ));
 }
 
-fn update_screen(
+pub fn update_screen(
     mut materials: ResMut<Assets<ScreenMaterial>>,
     query: Query<&mut MeshMaterial2d<ScreenMaterial>, With<Screen>>,
 ) {
