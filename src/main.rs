@@ -7,7 +7,7 @@ use std::thread;
 use bevy::prelude::*;
 use bevy::sprite_render::Material2dPlugin;
 use crate::cpu::Emulator;
-use crate::screen::ScreenMaterial;
+use crate::screen::{setup_screen, ScreenMaterial};
 
 const MEM_SIZE: usize = 65_535; //limited by 8bit bytes
 const ROM_SIZE: usize = 65_535; //limited by 8bit bytes
@@ -20,7 +20,7 @@ fn main() {
         .add_plugins((DefaultPlugins,
                      Material2dPlugin::<ScreenMaterial>::default()))
         .insert_resource(Emulator::hardware_setup())
-        .add_systems(Startup, boot_cpu)
+        .add_systems(Startup, (boot_cpu,setup_screen))
         .add_systems(Update, cpu_cycle)
         .run();
 }

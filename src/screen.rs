@@ -16,11 +16,11 @@ pub struct ScreenMaterial {
 
 impl Material2d for ScreenMaterial {
     fn fragment_shader() -> ShaderRef {
-        "shaders/screen.wgsl".into()
+        "screen.wgsl".into()
     }
 }
 
-fn setup_screen(
+pub fn setup_screen(
     mut commands: Commands,
     mut meshes: ResMut<Assets<Mesh>>,
     mut materials: ResMut<Assets<ScreenMaterial>>,
@@ -34,7 +34,7 @@ fn setup_screen(
         Mesh2d(meshes.add(Rectangle::default())),
         MeshMaterial2d(materials.add(ScreenMaterial {
             color: LinearRgba::BLUE,
-            
+
         })),
         Transform::default().with_scale(Vec3::splat(128.)),
     ));
