@@ -148,7 +148,7 @@ impl Instruction for INC {
     }
 
     fn opcode(&self) -> u8 {
-        0b0100
+        0b0101
     }
 }
 
