@@ -1,6 +1,7 @@
 mod cpu;
 mod instructions;
 mod tests;
+mod screen;
 
 use std::thread;
 use bevy::prelude::*;
