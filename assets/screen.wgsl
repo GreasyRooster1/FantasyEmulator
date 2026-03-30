@@ -1,7 +1,7 @@
 #import bevy_sprite::mesh2d_vertex_output::VertexOutput
 
 struct ScreenData {
-  data: array<u32, 2048>
+  data: array<vec4<f32>, 2048>
 };
 
 @group(#{MATERIAL_BIND_GROUP}) @binding(0) var<uniform> material_color: vec4<f32>;

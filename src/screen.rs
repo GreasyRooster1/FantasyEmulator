@@ -11,7 +11,7 @@ use bevy::sprite_render::Material2d;
 
 #[derive(Clone, Debug, ShaderType)]
 pub struct ScreenData{
-    data:[u32;2048],
+    data:[Vec4;2048],
 }
 
 #[derive(Asset, TypePath, AsBindGroup, Debug, Clone)]
@@ -45,7 +45,7 @@ pub fn setup_screen(
         Mesh2d(meshes.add(Rectangle::default())),
         MeshMaterial2d(materials.add(ScreenMaterial {
             color: LinearRgba::BLUE,
-            screen_data: ScreenData{data:[0; 2048]},
+            screen_data: ScreenData{data:[Vec4::splat(0.0); 2048]},
         })),
         Transform::default().with_scale(Vec3::splat(500.)),
         Screen
