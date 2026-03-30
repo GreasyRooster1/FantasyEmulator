@@ -54,8 +54,8 @@ pub struct ADD;
 pub struct SUB;
 pub struct MUL;
 pub struct DIV;
-
 pub struct REM;
+pub struct INC;
 pub struct NOT;
 pub struct AND;
 pub struct OR;
@@ -128,6 +128,20 @@ impl Instruction for MUL {
 impl Instruction for DIV {
     fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
         math_instruction_execute(emulator, args, |a,b| a.wrapping_div(b));
+    }
+    fn bytes_len(&self) -> u8 {
+        2
+    }
+
+    fn opcode(&self) -> u8 {
+        0b0100
+    }
+}
+
+impl Instruction for INC {
+    fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
+        let a = emulator.registers[args.get_nibble(1) as usize].wrapping_add(1);
+        emulator.registers[args.get_nibble(1) as usize] = !a;
     }
     fn bytes_len(&self) -> u8 {
         2
