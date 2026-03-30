@@ -35,7 +35,7 @@ impl Emulator {
 
     pub fn cpu_cycle(&mut self) {
         let pc_memory_value = self.physical_memory[self.registers[PC_REGISTER] as usize];
-        let opcode_nibble = get_nibble_from_byte(pc_memory_value as u32, 0);
+        let opcode_nibble = pc_memory_value>>4;
         let instruction = self.match_instruction_opcode(opcode_nibble);
 
         let instruction_len = instruction.bytes_len();
