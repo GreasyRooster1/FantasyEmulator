@@ -22,7 +22,7 @@ fn main() {
 }
 
 fn boot_cpu(mut emulator:ResMut<Emulator>){
-    emulator.boot("./boot/boot.rom".to_string());
+    emulator.boot("./data/boot.rom".to_string());
 }
 
 fn cpu_cycle(mut emulator:ResMut<Emulator>){
