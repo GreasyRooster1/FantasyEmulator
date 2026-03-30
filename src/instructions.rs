@@ -34,7 +34,7 @@ impl InstructionArgs {
 pub trait Instruction {
     fn execute(&self, emulator: &mut Emulator, args: InstructionArgs);
 
-    fn bytes_len(&self) -> i32;
+    fn bytes_len(&self) -> u8;
 
     fn opcode(&self) -> u8;
 }
@@ -75,7 +75,7 @@ impl Instruction for NOP {
             _ => {},
         };
     }
-    fn bytes_len(&self) -> i32 {
+    fn bytes_len(&self) -> u8 {
         1
     }
 
@@ -89,7 +89,7 @@ impl Instruction for ADD {
     fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
         math_instruction_execute(emulator, args, |a,b| a.wrapping_add(b));
     }
-    fn bytes_len(&self) -> i32 {
+    fn bytes_len(&self) -> u8 {
         2
     }
 
@@ -102,7 +102,7 @@ impl Instruction for SUB {
     fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
         math_instruction_execute(emulator, args, |a,b| a.wrapping_sub(b));
     }
-    fn bytes_len(&self) -> i32 {
+    fn bytes_len(&self) -> u8 {
         2
     }
 
@@ -115,7 +115,7 @@ impl Instruction for MUL {
     fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
         math_instruction_execute(emulator, args, |a,b| a.wrapping_mul(b));
     }
-    fn bytes_len(&self) -> i32 {
+    fn bytes_len(&self) -> u8 {
         2
     }
 
@@ -129,7 +129,7 @@ impl Instruction for DIV {
     fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
         math_instruction_execute(emulator, args, |a,b| a.wrapping_div(b));
     }
-    fn bytes_len(&self) -> i32 {
+    fn bytes_len(&self) -> u8 {
         2
     }
 
@@ -143,7 +143,7 @@ impl Instruction for NOT {
         let a = emulator.registers[args.get_nibble(1) as usize];
         emulator.registers[args.get_nibble(1) as usize] = !a;
     }
-    fn bytes_len(&self) -> i32 {
+    fn bytes_len(&self) -> u8 {
         1
     }
 
@@ -156,7 +156,7 @@ impl Instruction for REM {
     fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
         math_instruction_execute(emulator, args, |a,b| a.wrapping_rem(b));
     }
-    fn bytes_len(&self) -> i32 {
+    fn bytes_len(&self) -> u8 {
         2
     }
 
@@ -169,7 +169,7 @@ impl Instruction for AND {
     fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
         math_instruction_execute(emulator, args, |a,b| a&b);
     }
-    fn bytes_len(&self) -> i32 {
+    fn bytes_len(&self) -> u8 {
         2
     }
 
@@ -182,7 +182,7 @@ impl Instruction for OR {
     fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
         math_instruction_execute(emulator, args, |a,b| a|b);
     }
-    fn bytes_len(&self) -> i32 {
+    fn bytes_len(&self) -> u8 {
         2
     }
 
@@ -195,7 +195,7 @@ impl Instruction for XOR {
     fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
         math_instruction_execute(emulator, args, |a,b| a^b);
     }
-    fn bytes_len(&self) -> i32 {
+    fn bytes_len(&self) -> u8 {
         2
     }
 
@@ -210,7 +210,7 @@ impl Instruction for PEEK {
         let reg = emulator.registers[args.get_nibble(3) as usize];
         emulator.registers[args.get_nibble(3) as usize] = emulator.physical_memory[mem_loc];
     }
-    fn bytes_len(&self) -> i32 {
+    fn bytes_len(&self) -> u8 {
         2
     }
 
@@ -225,7 +225,7 @@ impl Instruction for POKE {
         let reg = emulator.registers[args.get_nibble(3) as usize];
         emulator.physical_memory[mem_loc] = emulator.registers[args.get_nibble(3) as usize];
     }
-    fn bytes_len(&self) -> i32 {
+    fn bytes_len(&self) -> u8 {
         2
     }
 
@@ -241,7 +241,7 @@ impl Instruction for LODI {
         dbg!(imm,reg);
         emulator.registers[reg as usize] = imm;
     }
-    fn bytes_len(&self) -> i32 {
+    fn bytes_len(&self) -> u8 {
         2
     }
 
@@ -272,7 +272,7 @@ impl Instruction for BRANCH {
             emulator.registers[PC_REGISTER] = mem_loc;
         }
     }
-    fn bytes_len(&self) -> i32 {
+    fn bytes_len(&self) -> u8 {
         3
     }
 
@@ -286,7 +286,7 @@ impl Instruction for HALT {
     fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
         emulator.halt();
     }
-    fn bytes_len(&self) -> i32 {
+    fn bytes_len(&self) -> u8 {
         3
     }
 

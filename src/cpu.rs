@@ -47,6 +47,7 @@ impl Emulator {
         }
 
         let args = InstructionArgs::from_bytes(instruction_data);
+        self.registers[PC_REGISTER] += instruction_len;
         instruction.execute(self,args);
     }
 
@@ -67,7 +68,7 @@ impl Emulator {
             0b1100 => Box::new(POKE),
             0b1101 => Box::new(LODI),
             0b1110 => Box::new(BRANCH),
-            0b1111 => Box::new(HALT), 
+            0b1111 => Box::new(HALT),
 
             _ => {println!("Unknown opcode {:#b}", opcode); Box::new(NOP)},
         }
