@@ -76,6 +76,28 @@ mod tests {
         test_math_instruct(&MUL, 128, 2, 0);
     }
     #[test]
+    fn test_instruct_inc() {
+        let mut emulator = Emulator::hardware_setup();
+        let data = vec![0b0101_0001];
+        let args = InstructionArgs::from_bytes(data);
+        emulator.registers[1] = 0b11110100;
+
+        INC.execute(&mut emulator, args);
+        dbg!(&emulator.registers);
+        assert_eq!(emulator.registers[1], 0b11110101);
+    }
+    #[test]
+    fn test_instruct_inc_overflow() {
+        let mut emulator = Emulator::hardware_setup();
+        let data = vec![0b0101_0001];
+        let args = InstructionArgs::from_bytes(data);
+        emulator.registers[1] = 0b11111111;
+
+        INC.execute(&mut emulator, args);
+        dbg!(&emulator.registers);
+        assert_eq!(emulator.registers[1], 0);
+    }
+    #[test]
     fn test_instruct_div() {
         test_math_instruct(&DIV, 100, 2, 50);
     }
