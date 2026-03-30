@@ -141,10 +141,10 @@ impl Instruction for DIV {
 impl Instruction for INC {
     fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
         let a = emulator.registers[args.get_nibble(1) as usize].wrapping_add(1);
-        emulator.registers[args.get_nibble(1) as usize] = !a;
+        emulator.registers[args.get_nibble(1) as usize] = a;
     }
     fn bytes_len(&self) -> u8 {
-        2
+        1
     }
 
     fn opcode(&self) -> u8 {
