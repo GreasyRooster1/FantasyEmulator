@@ -58,7 +58,7 @@ pub fn update_screen(
 ) {
     for handle in query.iter() {
         if let Some(material) = materials.get_mut(handle) {
-            material.screen_data.data=[1; 2048]
+            material.screen_data.data=[Vec4::splat(1.0); 2048]
         }
     }
 }
