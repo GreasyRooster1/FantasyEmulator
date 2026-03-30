@@ -7,7 +7,7 @@
 0010 -> SUB
 0011 -> MUL
 0100 -> DIV
-0101 -> 
+0101 -> INC
 0110 -> REM
 0111 -> NOT
 1000 -> AND
@@ -30,6 +30,13 @@ OPCODE |        ARG SPACE         |
 ```
 0000      0000   0000      0000
 OPCODE | REG A | REG B | REG OUT |
+```
+
+### INC
+1 bytes
+```
+0101     0000
+OPCODE | REG 
 ```
 
 ### NOT
