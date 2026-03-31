@@ -11,10 +11,10 @@ struct ScreenData {
 @fragment
 fn fragment(mesh: VertexOutput) -> @location(0) vec4<f32> {
     let uv = mesh.uv;
-    let pixel_pos = floor(uv*128.0)/128.0;
-    let index = floor(pixel_pos.x+pixel_pos.y*128.0);
-    let full = data.data[3];
-    let comp = index % 4;
+    let pixel_pos: vec2<f32> = floor(uv*128.0);
+    let index:i32 = i32(pixel_pos.x+pixel_pos.y*128.0);
+    let full:vec4<f32> = data.data[i32(index/4)];
+    let comp:i32 = index % 4;
     var val = 0.0;
     if(comp == 0){
         val = full.x;
@@ -28,6 +28,6 @@ fn fragment(mesh: VertexOutput) -> @location(0) vec4<f32> {
     if(comp == 3){
         val = full.w;
     }
-    //let col = data.palette[val];
+    let col = data.palette[i32(val)];
     return full;
 }
