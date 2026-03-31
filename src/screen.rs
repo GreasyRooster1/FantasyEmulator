@@ -51,7 +51,7 @@ pub fn setup_screen(
         MeshMaterial2d(materials.add(ScreenMaterial {
             color: LinearRgba::BLUE,
             screen_data: ScreenData{
-                data:[Vec4::splat(0.0); 2048],
+                data:[Vec4::splat(2.0); 2048],
                 palette:load_palette().unwrap()
             }
         })),
@@ -80,7 +80,7 @@ pub fn update_screen(
 ) {
     for handle in query.iter() {
         if let Some(material) = materials.get_mut(handle) {
-            material.screen_data.data=[Vec4::new(1.0,2.0,3.0,4.0)
+            material.screen_data.data=[Vec4::new(0.2,0.2,0.3,0.4)
                 ; 2048]
         }
     }
