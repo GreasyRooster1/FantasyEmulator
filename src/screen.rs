@@ -41,6 +41,7 @@ pub fn setup_screen(
     mut materials: ResMut<Assets<ScreenMaterial>>,
     asset_server: Res<AssetServer>,
 ) {
+
     // camera
     commands.spawn(Camera2d);
 
@@ -60,7 +61,7 @@ pub fn setup_screen(
 }
 
 pub fn load_palette() -> io::Result<[Vec4;16]>{
-    let path = "example.txt";
+    let path = "data/palette.hex";
     let file = File::open(path)?;
     let reader = BufReader::new(file);
     let mut palette:Vec<Vec4> = Vec::new();
@@ -79,7 +80,8 @@ pub fn update_screen(
 ) {
     for handle in query.iter() {
         if let Some(material) = materials.get_mut(handle) {
-            material.screen_data.data=[Vec4::splat(1.0); 2048]
+            material.screen_data.data=[Vec4::new(1.0,2.0,3.0,4.0)
+                ; 2048]
         }
     }
 }
