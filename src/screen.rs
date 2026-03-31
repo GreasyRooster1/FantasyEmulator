@@ -51,7 +51,7 @@ pub fn setup_screen(
         MeshMaterial2d(materials.add(ScreenMaterial {
             color: LinearRgba::BLUE,
             screen_data: ScreenData{
-                data:[Vec4::splat(2.0); 2048],
+                data:[Vec4::splat(0.1); 2048],
                 palette:load_palette().unwrap()
             }
         })),

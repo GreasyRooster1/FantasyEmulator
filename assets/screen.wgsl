@@ -15,7 +15,7 @@ fn fragment(mesh: VertexOutput) -> @location(0) vec4<f32> {
     let index:i32 = i32(pixel_pos.x+pixel_pos.y*128.0);
     let full:vec4<f32> = data.data[i32(index/4)] * 10.0;
     let comp:i32 = index % 4;
-    var val = 0.0;
+    var val = 1.0;
     if(comp == 0){
         val = full.x;
     }
@@ -28,6 +28,7 @@ fn fragment(mesh: VertexOutput) -> @location(0) vec4<f32> {
     if(comp == 3){
         val = full.w;
     }
-    let col = data.palette[i32(val)];
+    let col = data.palette[i32(floor(full.x
+    ))];
     return col;
 }
