@@ -93,9 +93,9 @@ pub fn package_screen_buffer(
     for index in (SCREEN_BUF_START..(SCREEN_BUF_START+SCREEN_BUF_LENGTH)).step_by(2){
         let byte_a = emulator.physical_memory[index];
         let byte_b = emulator.physical_memory[index+1];
-        let nib_1 = byte_a & 0xF0;
+        let nib_1 = byte_a >> 4 & 0x0F;
         let nib_2 = byte_a & 0x0F;
-        let nib_3 = byte_b & 0xF0;
+        let nib_3 = byte_b >> 4 & 0x0F;
         let nib_4 = byte_b & 0x0F;
         data.push(Vec4::new(
             nib_1 as f32,
