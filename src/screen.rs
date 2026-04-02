@@ -14,7 +14,7 @@ use bevy::sprite_render::Material2d;
 
 #[derive(Clone, Debug, ShaderType)]
 pub struct ScreenData{
-    data:[Vec4;2048],
+    data:[Vec4;4096],
     palette:[Vec4; 16],
 }
 
@@ -51,7 +51,7 @@ pub fn setup_screen(
         MeshMaterial2d(materials.add(ScreenMaterial {
             color: LinearRgba::BLUE,
             screen_data: ScreenData{
-                data:[Vec4::splat(0.1); 2048],
+                data:[Vec4::splat(0.1); 4096],
                 palette:load_palette().unwrap()
             }
         })),
@@ -80,8 +80,8 @@ pub fn update_screen(
 ) {
     for handle in query.iter() {
         if let Some(material) = materials.get_mut(handle) {
-            material.screen_data.data=[Vec4::new(0.2,0.2,0.3,0.4)
-                ; 2048]
+            material.screen_data.data=[Vec4::new(2.0,2.0,3.0,4.0)
+                ; 4096]
         }
     }
 }

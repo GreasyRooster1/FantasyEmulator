@@ -1,7 +1,7 @@
 #import bevy_sprite::mesh2d_vertex_output::VertexOutput
 
 struct ScreenData {
-  data: array<vec4<f32>, 2048>,
+  data: array<vec4<f32>, 4096>,
   palette: array<vec4<f32>, 16>
 };
 
@@ -11,9 +11,9 @@ struct ScreenData {
 @fragment
 fn fragment(mesh: VertexOutput) -> @location(0) vec4<f32> {
     let uv = mesh.uv;
-    let pixel_pos: vec2<f32> = floor((uv+1.0)*64.0);
+    let pixel_pos: vec2<f32> = floor(uv*128.0);
     let index:i32 = i32(pixel_pos.x+pixel_pos.y*128.0);
-    let full:vec4<f32> = data.data[i32(index/4)] * 10.0;
+    let full:vec4<f32> = data.data[i32(index/4)];
     let comp:i32 = index % 4;
     var val = 1.0;
     if(comp == 0){
@@ -28,7 +28,8 @@ fn fragment(mesh: VertexOutput) -> @location(0) vec4<f32> {
     if(comp == 3){
         val = full.w;
     }
-    let col = data.palette[i32(floor(full.x
-    ))];
+    let col = data.palette[i32(floor(val))];
+
     return col;
+    //return vec4(0.0,f32(index/4)/128.0,0.0,1.0);
 }
