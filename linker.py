@@ -25,5 +25,13 @@ with open('example.txt', 'r') as file:
     for line in file:
         print(line.strip())
         words = line.split()
+        opcode = opcodes[words[0]]
+        args = []
+        words.pop(0)
+        for word in words
+            args.append(int(word)
+        machine_code.append(opcode)
+        for arg in args
+            machine_code.append(arg)
 
 
