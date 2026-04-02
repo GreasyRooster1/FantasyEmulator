@@ -10,7 +10,7 @@ use bevy::prelude::{Camera2d, Commands, Component, MeshMaterial2d, Query, Rectan
 use bevy::render::render_resource::{AsBindGroup, Buffer, ShaderType};
 use bevy::shader::ShaderRef;
 use bevy::sprite_render::Material2d;
-
+use crate::cpu::{Emulator, SCREEN_BUF_LENGTH, SCREEN_BUF_START};
 
 #[derive(Clone, Debug, ShaderType)]
 pub struct ScreenData{
@@ -77,11 +77,32 @@ pub fn load_palette() -> io::Result<[Vec4;16]>{
 pub fn update_screen(
     mut materials: ResMut<Assets<ScreenMaterial>>,
     query: Query<&mut MeshMaterial2d<ScreenMaterial>, With<Screen>>,
+    emulator:Res<Emulator>
 ) {
     for handle in query.iter() {
         if let Some(material) = materials.get_mut(handle) {
-            material.screen_data.data=[Vec4::new(2.0,2.0,3.0,4.0)
-                ; 4096]
+            material.screen_data.data=package_screen_buffer(&emulator).as_slice().try_into().unwrap();
         }
     }
+}
+
+pub fn package_screen_buffer(
+    emulator:&Emulator,
+) -> Vec<Vec4>{
+    let mut data:Vec<Vec4> = vec![];
+    for index in (SCREEN_BUF_START..(SCREEN_BUF_START+SCREEN_BUF_LENGTH)).step_by(2){
+        let byte_a = emulator.physical_memory[index];
+        let byte_b = emulator.physical_memory[index+1];
+        let nib_1 = byte_a & 0xF0;
+        let nib_2 = byte_a & 0x0F;
+        let nib_3 = byte_b & 0xF0;
+        let nib_4 = byte_b & 0x0F;
+        data.push(Vec4::new(
+            nib_1 as f32,
+            nib_2 as f32,
+            nib_3 as f32,
+            nib_4 as f32
+        ));
+    }
+    data
 }
