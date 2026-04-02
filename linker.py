@@ -34,4 +34,5 @@ with open('example.txt', 'r') as file:
         for arg in args
             machine_code.append(arg)
 
+print(machine_code)
 
