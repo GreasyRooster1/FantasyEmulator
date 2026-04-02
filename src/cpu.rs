@@ -8,6 +8,9 @@ use crate::instructions::*;
 const DBG_MEM_REPORT_FILE: &str = "./mem_dump.log";
 const DBG_ROM_REPORT_FILE: &str = "./rom_dump.log";
 
+const SCREEN_BUF_START: usize = 0x0;
+const SCREEN_BUF_LENGTH: usize = 8192;
+
 #[derive(Resource, Debug)]
 pub struct Emulator {
     pub physical_memory: [u8; MEM_SIZE],
