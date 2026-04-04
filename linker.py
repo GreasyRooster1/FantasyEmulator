@@ -28,11 +28,20 @@ with open('program.asm', 'r') as file:
         opcode = opcodes[words[0]]
         args = []
         words.pop(0)
-        for word in words
-            args.append(int(word)
+        for word in words:
+            args.append(int(word))
         machine_code.append(opcode)
-        for arg in args
+        for arg in args:
             machine_code.append(arg)
+
+compressed = []
+for i in range(0,len(machine_code),2):
+    compressed.append(machine_code[i+1]+(machine_code[i]<<4))
+
+byte_data = bytes(compressed)
+
+with open('rom.rom', 'wb') as f:
+    f.write(byte_data)
 
 print(machine_code)
 
