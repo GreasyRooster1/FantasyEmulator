@@ -29,7 +29,12 @@ with open('program.asm', 'r') as file:
         args = []
         words.pop(0)
         for word in words:
-            args.append(int(word))
+            if word.startswith("0x"):
+                args.append(int(word[2:],16))
+            elif word.startswith("b"):
+                args.append(int(word[1:],2))
+            else:
+                args.append(int(word))
         machine_code.append(opcode)
         for arg in args:
             machine_code.append(arg)
