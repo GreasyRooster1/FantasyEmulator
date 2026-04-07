@@ -24,11 +24,12 @@ machine_code = []
 with open('program.asm', 'r') as file:
     for line in file:
         print(line.strip())
-        words = line.split()
+        words = line.replace("_"," ").split()
         opcode = opcodes[words[0]]
         args = []
         words.pop(0)
         for word in words:
+            word = word.replace("r","",1)
             if word.startswith("0x"):
                 args.append(int(word[2:],16))
             elif word.startswith("b"):
