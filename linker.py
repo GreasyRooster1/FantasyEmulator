@@ -21,7 +21,7 @@ opcodes = {
 machine_code = []
 
 
-with open('program.asm', 'r') as file:
+with open('programs/'+input("input file name without .asm: ")+'.asm', 'r') as file:
     for line in file:
         if line.startswith(";") or len(line.strip())<1:
             continue
