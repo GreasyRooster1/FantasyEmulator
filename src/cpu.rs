@@ -1,4 +1,4 @@
-use crate::{MEM_SIZE, PC_REGISTER, REGISTER_COUNT, ROM_SIZE, get_nibble_from_byte};
+use crate::{MEM_SIZE, REGISTER_COUNT, ROM_SIZE, get_nibble_from_byte};
 use bevy::prelude::Resource;
 use std::fs;
 use std::fs::File;
@@ -39,20 +39,20 @@ impl Emulator {
     }
 
     pub fn cpu_cycle(&mut self) {
-        let pc_memory_value = self.physical_memory[self.registers[PC_REGISTER] as usize];
+        let pc_memory_value = self.physical_memory[self.program_counter as usize];
         let opcode_nibble = pc_memory_value>>4;
         let instruction = self.match_instruction_opcode(opcode_nibble);
 
         let instruction_len = instruction.bytes_len();
         let mut instruction_data: Vec<u8> = vec![];
         for i in 0..instruction.bytes_len() {
-            let pc = self.registers[PC_REGISTER] as usize;
+            let pc = self.program_counter as usize;
             let val = self.physical_memory[(pc+i as usize) % MEM_SIZE];
             instruction_data.push(val);
         }
 
         let args = InstructionArgs::from_bytes(instruction_data);
-        self.registers[PC_REGISTER] += instruction_len;
+        self.program_counter += instruction_len as u16;
         instruction.execute(self,args);
     }
 
@@ -63,7 +63,7 @@ impl Emulator {
             0b0010 => Box::new(SUB),
             0b0011 => Box::new(MUL),
             0b0100 => Box::new(DIV),
-            0b0101 => Box::new(NOP),  //placeholder
+            0b0101 => Box::new(INC),  //placeholder
             0b0110 => Box::new(REM),
             0b0111 => Box::new(NOT),
             0b1000 => Box::new(AND),

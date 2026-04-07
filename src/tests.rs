@@ -3,7 +3,7 @@
 mod tests {
 
     use crate::cpu::*;
-    use crate::{get_nibble_from_byte, PC_REGISTER};
+    use crate::{get_nibble_from_byte};
     use crate::instructions::*;
 
     fn test_math_instruct(instruct: &impl Instruction, a:u8, b:u8, expected:u8) {
@@ -169,7 +169,7 @@ mod tests {
         emulator.registers[1] = 0xFF;
         emulator.registers[2] = 0xFB;
         BRANCH.execute(&mut emulator, args);
-        assert_eq!(emulator.registers[PC_REGISTER], 0b0110_1010);
+        assert_eq!(emulator.program_counter, 0b0110_1010);
     }
 
 }
