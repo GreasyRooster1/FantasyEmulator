@@ -6,4 +6,9 @@
 ; r6 = screen h
 
 ; bounce x 0x0000
-BRANCH < < < 0_0
+BRANCH r3 == r0 0 12
+BRANCH r3 != r0 0 0x00
+; 12
+LODI r3 0_1
+
+;LODI r3 0_1

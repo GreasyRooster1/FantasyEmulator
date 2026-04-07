@@ -1,3 +1,4 @@
+import sys
 
 opcodes = {
     "NOP": 0,
@@ -31,7 +32,7 @@ branch_ops = [
 machine_code = []
 
 
-with open('programs/'+input("input file name without .asm: ")+'.asm', 'r') as file:
+with open('programs/'+sys.argv[0]+'.asm', 'r') as file:
     for line in file:
         if line.startswith(";") or len(line.strip())<1:
             continue
@@ -64,4 +65,5 @@ with open('rom.rom', 'wb') as f:
     f.write(byte_data)
 
 print(machine_code)
+print(len(machine_code))
 
