@@ -32,7 +32,7 @@ branch_ops = [
 machine_code = []
 
 
-with open('programs/'+sys.argv[0]+'.asm', 'r') as file:
+with open('programs/'+sys.argv[1]+'.asm', 'r') as file:
     for line in file:
         if line.startswith(";") or len(line.strip())<1:
             continue
