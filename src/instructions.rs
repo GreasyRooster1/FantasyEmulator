@@ -221,12 +221,14 @@ impl Instruction for XOR {
 
 impl Instruction for PEEK {
     fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
-        let mem_loc = args.get_byte(1) as usize;
-        let reg = emulator.registers[args.get_nibble(3) as usize];
-        emulator.registers[args.get_nibble(3) as usize] = emulator.physical_memory[mem_loc];
+        let mem_loc_a = args.get_byte(1) as usize;
+        let mem_loc_b = args.get_byte(3) as usize;
+        let mem_loc = mem_loc_a << 8 + mem_loc_b;
+        let reg = args.get_nibble(5) as usize;
+        emulator.registers[reg] = emulator.physical_memory[mem_loc];
     }
     fn bytes_len(&self) -> u8 {
-        2
+        3
     }
 
     fn opcode(&self) -> u8 {
@@ -236,9 +238,11 @@ impl Instruction for PEEK {
 
 impl Instruction for POKE {
     fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
-        let mem_loc = args.get_byte(1) as usize;
-        let reg = emulator.registers[args.get_nibble(3) as usize];
-        emulator.physical_memory[mem_loc] = emulator.registers[args.get_nibble(3) as usize];
+        let mem_loc_a = args.get_byte(1) as usize;
+        let mem_loc_b = args.get_byte(3) as usize;
+        let mem_loc = mem_loc_a << 8 + mem_loc_b;
+        let reg = args.get_nibble(5) as usize;
+        emulator.physical_memory[mem_loc] = emulator.registers[reg];
     }
     fn bytes_len(&self) -> u8 {
         2
@@ -270,7 +274,9 @@ impl Instruction for BRANCH {
         let reg_a = emulator.registers[args.get_nibble(1) as usize];
         let op = args.get_nibble(2);
         let reg_b = emulator.registers[args.get_nibble(3) as usize];
-        let mem_loc = args.get_byte(4);
+        let mem_loc_a = args.get_byte(4) as usize;
+        let mem_loc_b = args.get_byte(6) as usize;
+        let mem_loc = mem_loc_a << 8 + mem_loc_b;
         dbg!(reg_a, op, reg_b, mem_loc);
         let result = match op {
             0b0000 => true,

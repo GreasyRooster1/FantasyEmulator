@@ -49,15 +49,15 @@ OPCODE | REG
 ### PEEK
 2 bytes
 ```
- 1011    0000  0000   0000
-OPCODE | MEMORY LOC | REG
+ 1011    0000 0000  0000  0000   0000
+OPCODE |      MEMORY LOC       | REG
 ```
 
 ### POKE
 2 bytes
 ```
- 1100    0000  0000   0000
-OPCODE | MEMORY LOC | REG
+ 1100    0000 0000  0000  0000   0000
+OPCODE |      MEMORY LOC       | REG
 ```
 
 ### LODI
@@ -70,8 +70,8 @@ OPCODE | REG  | IMMEDIATE
 ### BRANCH
 3 bytes
 ```
- 1110  | 0000  |   0000    | 0000  | 0000 0000 
-OPCODE | REG 1 | OPERATION | REG 2 | MEM LOC   |
+ 1110  | 0000  |   0000    | 0000  | 0000 0000 0000 0000 
+OPCODE | REG 1 | OPERATION | REG 2 | MEM LOC             |
 ```
 
 ### BRANCH Operations

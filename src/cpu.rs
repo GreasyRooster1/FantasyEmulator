@@ -16,6 +16,7 @@ pub struct Emulator {
     pub physical_memory: [u8; MEM_SIZE],
     pub registers: [u8; REGISTER_COUNT],
     pub rom_disk: [u8; ROM_SIZE],
+    pub program_counter: u16,
 
     is_running: bool,
 }
@@ -26,6 +27,7 @@ impl Emulator {
             physical_memory: [0; MEM_SIZE],
             registers: [0; REGISTER_COUNT],
             rom_disk: [0; ROM_SIZE],
+            program_counter: 0,
             is_running: false,
         }
     }
