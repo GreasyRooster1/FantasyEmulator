@@ -23,9 +23,9 @@ machine_code = []
 
 with open('program.asm', 'r') as file:
     for line in file:
-        print(line.strip())
-        if line.startswith(";"):
+        if line.startswith(";") or len(line.strip())<1:
             continue
+        print(line.strip())
         words = line.replace("_"," ").split()
         opcode = opcodes[words[0]]
         args = []
