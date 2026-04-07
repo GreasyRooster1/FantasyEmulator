@@ -18,6 +18,16 @@ opcodes = {
     "HALT": 15,
 }
 
+branch_ops = [
+    "jump",
+    "==",
+    "!=",
+    ">",
+    ">=",
+    "<",
+    "<="
+]
+
 machine_code = []
 
 
@@ -26,6 +36,8 @@ with open('programs/'+input("input file name without .asm: ")+'.asm', 'r') as fi
         if line.startswith(";") or len(line.strip())<1:
             continue
         print(line.strip())
+        for i in range(len(branch_ops)):
+            line = line.replace(branch_ops[i],str(i))
         words = line.replace("_"," ").split()
         opcode = opcodes[words[0]]
         args = []
