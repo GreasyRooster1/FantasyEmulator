@@ -1,5 +1,5 @@
 use crate::cpu::Emulator;
-use crate::{get_nibble_from_byte, PC_REGISTER};
+use crate::{get_nibble_from_byte};
 
 pub struct InstructionArgs {
     data: u32,
@@ -290,7 +290,7 @@ impl Instruction for BRANCH {
             _ => false,
         };
         if result {
-            emulator.registers[PC_REGISTER] = mem_loc;
+            emulator.program_counter = mem_loc as u16;
         }
     }
     fn bytes_len(&self) -> u8 {
