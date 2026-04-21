@@ -27,7 +27,8 @@ impl InstructionArgs {
         get_nibble_from_byte(self.data, i)
     }
     pub fn get_byte(&self, i: u32) -> u8 {
-        (self.get_nibble(i)<<4)+self.get_nibble(i+1)
+        let nib_idx = i + 1;
+        ((self.data >> (32 - nib_idx * 8)) & 0xFF) as u8
     }
 }
 
@@ -43,7 +44,7 @@ pub fn math_instruction_execute<F>(emulator: &mut Emulator, args: InstructionArg
 where
     F: Fn(u8,u8) -> u8,
 {
-    let a = emulator.registers[args.get_nibble(1) as usize];
+    let a = emulator.registers[args.get_byte(1) as usize];
     let b = emulator.registers[args.get_nibble(2) as usize];
     let c = op(a,b);
     emulator.registers[args.get_nibble(3) as usize] = c;
