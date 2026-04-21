@@ -3,6 +3,11 @@
 ## Registers
 - 256 registers
 - i32
+```
+00000000...11111100 -> r0...r253
+11111110 -> ra
+11111111 -> pc
+```
 
 ## Instruction Set
 ```
