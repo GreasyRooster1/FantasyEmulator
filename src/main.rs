@@ -11,8 +11,9 @@ use crate::screen::{setup_screen, update_screen, ScreenMaterial};
 
 const MEM_SIZE: usize = 65_535; //limited by 2 8bit bytes
 const ROM_SIZE: usize = 65_535; //limited by 2 8bit bytes
-const REGISTER_COUNT: usize = 16; // limited by asm arguments
-const RA_REGISTER: usize = 0xF;
+const REGISTER_COUNT: usize = 256; // limited by asm arguments
+const PC_REGISTER: usize = 0xFF;
+const RA_REGISTER: usize = 0xFE;
 
 fn main() {
     App::new()
