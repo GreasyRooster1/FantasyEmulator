@@ -42,12 +42,12 @@ pub trait Instruction {
 
 pub fn math_instruction_execute<F>(emulator: &mut Emulator, args: InstructionArgs, op:F)
 where
-    F: Fn(u8,u8) -> u8,
+    F: Fn(i32,i32) -> i32,
 {
     let a = emulator.registers[args.get_byte(1) as usize];
-    let b = emulator.registers[args.get_nibble(2) as usize];
+    let b = emulator.registers[args.get_byte(2) as usize];
     let c = op(a,b);
-    emulator.registers[args.get_nibble(3) as usize] = c;
+    emulator.registers[args.get_byte(3) as usize] = c;
 }
 
 pub struct NOP;
