@@ -1,4 +1,4 @@
-use crate::{MEM_SIZE, REGISTER_COUNT, ROM_SIZE, get_nibble_from_byte};
+use crate::{MEM_SIZE, REGISTER_COUNT, ROM_SIZE, get_nibble_from_byte, PC_REGISTER};
 use bevy::prelude::Resource;
 use std::fs;
 use std::fs::File;
@@ -14,9 +14,8 @@ pub const SCREEN_BUF_LENGTH: usize = 0x2000; //8192
 #[derive(Resource, Debug)]
 pub struct Emulator {
     pub physical_memory: [u8; MEM_SIZE],
-    pub registers: [u8; REGISTER_COUNT],
+    pub registers: [i32; REGISTER_COUNT],
     pub rom_disk: [u8; ROM_SIZE],
-    pub program_counter: u16,
 
     is_running: bool,
 }
@@ -27,7 +26,6 @@ impl Emulator {
             physical_memory: [0; MEM_SIZE],
             registers: [0; REGISTER_COUNT],
             rom_disk: [0; ROM_SIZE],
-            program_counter: 0,
             is_running: false,
         }
     }
@@ -39,20 +37,20 @@ impl Emulator {
     }
 
     pub fn cpu_cycle(&mut self) {
-        let pc_memory_value = self.physical_memory[self.program_counter as usize];
+        let pc_memory_value = self.physical_memory[self.registers[PC_REGISTER] as usize];
         let opcode_nibble = pc_memory_value>>4;
         let instruction = self.match_instruction_opcode(opcode_nibble);
 
         let instruction_len = instruction.bytes_len();
         let mut instruction_data: Vec<u8> = vec![];
         for i in 0..instruction.bytes_len() {
-            let pc = self.program_counter as usize;
+            let pc = self.registers[PC_REGISTER] as usize;
             let val = self.physical_memory[(pc+i as usize) % MEM_SIZE];
             instruction_data.push(val);
         }
 
         let args = InstructionArgs::from_bytes(instruction_data);
-        self.program_counter += instruction_len as u16;
+        self.registers[PC_REGISTER] += instruction_len as i32;
         instruction.execute(self,args);
     }
 
