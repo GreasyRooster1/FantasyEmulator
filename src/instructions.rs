@@ -2,17 +2,17 @@ use crate::cpu::Emulator;
 use crate::{get_nibble_from_byte};
 
 pub struct InstructionArgs {
-    data: u32,
+    data: u128,
 }
 
 impl InstructionArgs {
     pub fn from_bytes(bytes: Vec<u8>) -> InstructionArgs {
-        let mut data: u32 = 0;
+        let mut data: u128 = 0;
         let total_bits = bytes.len() * 8;
         for i in 0..bytes.len() {
             let shift_num = (bytes.len() as i32 - i as i32).abs() as usize;
             println!("{shift_num}");
-            data += (bytes[i] as u32) << (32 - (i + 1) * 8);
+            data += (bytes[i] as u128) << (32 - (i + 1) * 8);
         }
         //data = data << (32 - total_bits);
         InstructionArgs { data }
