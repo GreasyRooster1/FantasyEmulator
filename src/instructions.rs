@@ -84,11 +84,11 @@ impl Instruction for ADD {
         math_instruction_execute(emulator, args, |a,b| a.wrapping_add(b));
     }
     fn bytes_len(&self) -> u8 {
-        2
+        4
     }
 
     fn opcode(&self) -> u8 {
-        0b0001
+        0b00010000
     }
 }
 impl Instruction for SUB {
@@ -96,7 +96,7 @@ impl Instruction for SUB {
         math_instruction_execute(emulator, args, |a,b| a.wrapping_sub(b));
     }
     fn bytes_len(&self) -> u8 {
-        2
+        4
     }
 
     fn opcode(&self) -> u8 {
@@ -108,7 +108,7 @@ impl Instruction for MUL {
         math_instruction_execute(emulator, args, |a,b| a.wrapping_mul(b));
     }
     fn bytes_len(&self) -> u8 {
-        2
+        4
     }
 
     fn opcode(&self) -> u8 {
@@ -120,7 +120,7 @@ impl Instruction for DIV {
         math_instruction_execute(emulator, args, |a,b| a.wrapping_div(b));
     }
     fn bytes_len(&self) -> u8 {
-        2
+        4
     }
 
     fn opcode(&self) -> u8 {
@@ -159,7 +159,7 @@ impl Instruction for REM {
         math_instruction_execute(emulator, args, |a,b| a.wrapping_rem(b));
     }
     fn bytes_len(&self) -> u8 {
-        2
+        4
     }
 
     fn opcode(&self) -> u8 {
@@ -171,7 +171,7 @@ impl Instruction for AND {
         math_instruction_execute(emulator, args, |a,b| a&b);
     }
     fn bytes_len(&self) -> u8 {
-        2
+        4
     }
 
     fn opcode(&self) -> u8 {
@@ -183,7 +183,7 @@ impl Instruction for OR {
         math_instruction_execute(emulator, args, |a,b| a|b);
     }
     fn bytes_len(&self) -> u8 {
-        2
+        4
     }
 
     fn opcode(&self) -> u8 {
@@ -195,7 +195,7 @@ impl Instruction for XOR {
         math_instruction_execute(emulator, args, |a,b| a^b);
     }
     fn bytes_len(&self) -> u8 {
-        2
+        4
     }
 
     fn opcode(&self) -> u8 {
