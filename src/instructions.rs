@@ -1,5 +1,5 @@
 use crate::cpu::Emulator;
-use crate::{get_nibble_from_byte, PC_REGISTER, RA_REGISTER};
+use crate::{get_byte_from_data, get_nibble_from_byte, PC_REGISTER, RA_REGISTER};
 
 pub struct InstructionArgs {
     data: u128,
@@ -394,7 +394,22 @@ impl Instruction for LSHI {
     }
 }
 
+impl Instruction for LODW {
+    fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
+        let a = args.get_byte(1);
+        let mem_loc = args.get_u32(2);
+        for i in 0..4 {
+            emulator.physical_memory[(mem_loc + i) as usize] = get_byte_from_data(emulator.registers[a as usize] as u128,i);
+        }
+    }
+    fn bytes_len(&self) -> u8 {
+        6
+    }
 
+    fn opcode(&self) -> u8 {
+        0b0100_0000
+    }
+}
 
 impl Instruction for JMP {
     fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
