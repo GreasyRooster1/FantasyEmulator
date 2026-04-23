@@ -76,10 +76,17 @@ pub struct DIVI;
 pub struct MOD;
 pub struct MODI;
 
-pub struct NOT;
 pub struct AND;
+pub struct ANDI;
 pub struct OR;
+pub struct ORI;
 pub struct XOR;
+pub struct XORI;
+pub struct NOT;
+pub struct RSH;
+pub struct RSHI;
+pub struct LSH;
+pub struct LSHI;
 
 impl Instruction for NOP {
     fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
@@ -242,6 +249,102 @@ impl Instruction for ANDI {
     }
 
     fn opcode(&self) -> u8 {
-        0b0010_0000
+        0b0010_0001
+    }
+}
+impl Instruction for OR {
+    fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
+        math_instruction_execute(emulator, args, |a,b| a | b);
+    }
+    fn bytes_len(&self) -> u8 {
+        4
+    }
+
+    fn opcode(&self) -> u8 {
+        0b0010_0010
+    }
+}
+impl Instruction for ORI {
+    fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
+        imm_math_instruction_execute(emulator, args, |a,b| a | b);
+    }
+    fn bytes_len(&self) -> u8 {
+        6
+    }
+
+    fn opcode(&self) -> u8 {
+        0b0010_0011
+    }
+}
+impl Instruction for XOR {
+    fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
+        math_instruction_execute(emulator, args, |a,b| a ^ b);
+    }
+    fn bytes_len(&self) -> u8 {
+        4
+    }
+
+    fn opcode(&self) -> u8 {
+        0b0010_0100
+    }
+}
+impl Instruction for XORI {
+    fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
+        imm_math_instruction_execute(emulator, args, |a,b| a ^ b);
+    }
+    fn bytes_len(&self) -> u8 {
+        6
+    }
+
+    fn opcode(&self) -> u8 {
+        0b0010_0101
+    }
+}
+impl Instruction for RSH {
+    fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
+        math_instruction_execute(emulator, args, |a,b| a >> b);
+    }
+    fn bytes_len(&self) -> u8 {
+        4
+    }
+
+    fn opcode(&self) -> u8 {
+        0b0010_0111
+    }
+}
+impl Instruction for RSHI {
+    fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
+        imm_math_instruction_execute(emulator, args, |a,b| a >> b);
+    }
+    fn bytes_len(&self) -> u8 {
+        6
+    }
+
+    fn opcode(&self) -> u8 {
+        0b0010_1000
+    }
+}
+impl Instruction for LSH {
+    fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
+        math_instruction_execute(emulator, args, |a,b| a << b);
+    }
+    fn bytes_len(&self) -> u8 {
+        4
+    }
+
+    fn opcode(&self) -> u8 {
+        0b0010_1001
+    }
+}
+impl Instruction for LSHI {
+    fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
+        imm_math_instruction_execute(emulator, args, |a,b| a << b);
+    }
+    fn bytes_len(&self) -> u8 {
+        6
+    }
+
+    fn opcode(&self) -> u8 {
+        0b0010_1010
     }
 }
