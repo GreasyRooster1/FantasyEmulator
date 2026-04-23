@@ -56,22 +56,57 @@ impl Emulator {
 
     pub fn match_instruction_opcode(&self, opcode: u8) -> Box<dyn Instruction>{
         match opcode {
-            0b0000 => Box::new(NOP),
-            0b0001 => Box::new(ADD),
-            0b0010 => Box::new(SUB),
-            0b0011 => Box::new(MUL),
-            0b0100 => Box::new(DIV),
-            0b0101 => Box::new(INC),  //placeholder
-            0b0110 => Box::new(REM),
-            0b0111 => Box::new(NOT),
-            0b1000 => Box::new(AND),
-            0b1001 => Box::new(OR),
-            0b1010 => Box::new(XOR),
-            0b1011 => Box::new(PEEK),
-            0b1100 => Box::new(POKE),
-            0b1101 => Box::new(LODI),
-            0b1110 => Box::new(BRANCH),
-            0b1111 => Box::new(HALT),
+            0b0000_0000 => Box::new(NOP),
+
+            0b0001_0000 => Box::new(ADD),
+            0b0001_0001 => Box::new(ADDI),
+            0b0001_0010 => Box::new(SUB),
+            0b0001_0011 => Box::new(SUBI),
+            0b0001_0100 => Box::new(MUL),
+            0b0001_0101 => Box::new(MULI),
+            0b0001_0110 => Box::new(DIV),
+            0b0001_0111 => Box::new(DIVI),
+            0b0001_1000 => Box::new(MOD),
+            0b0001_1001 => Box::new(MODI),
+
+            0b0010_0000 => Box::new(AND),
+            0b0010_0001 => Box::new(ANDI),
+            0b0010_0010 => Box::new(OR),
+            0b0010_0011 => Box::new(ORI),
+            0b0010_0100 => Box::new(XOR),
+            0b0010_0101 => Box::new(XORI),
+            0b0010_0110 => Box::new(NOT),
+            0b0010_0111 => Box::new(RSH),
+            0b0010_1000 => Box::new(RSHI),
+            0b0010_1001 => Box::new(LSH),
+            0b0010_1010 => Box::new(LSHI),
+
+            0b0011_0000 => Box::new(LODW),
+            0b0011_0001 => Box::new(LODH),
+            0b0011_0010 => Box::new(LODB),
+            0b0011_0011 => Box::new(LODI),
+            0b0011_0100 => Box::new(STO),
+
+            0b0100_0000 => Box::new(JMP),
+            0b0100_0001 => Box::new(BREQ),
+            0b0100_0010 => Box::new(BRNEQ),
+            0b0100_0011 => Box::new(BRGT),
+            0b0100_0100 => Box::new(BRGTE),
+            0b0100_0101 => Box::new(BRLT),
+            0b0100_0110 => Box::new(BRLTE),
+            0b0100_0111 => Box::new(BREZ),
+            0b0100_1000 => Box::new(BRNEZ),
+            0b0100_1001 => Box::new(CALL),
+            0b0100_1010 => Box::new(RET),
+
+
+
+
+
+
+
+
+
 
             _ => {println!("Unknown opcode {:#b}", opcode); Box::new(NOP)},
         }
