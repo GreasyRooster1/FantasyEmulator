@@ -117,7 +117,7 @@ impl Instruction for ADDI {
         imm_math_instruction_execute(emulator, args, |a,b| a.wrapping_add(b));
     }
     fn bytes_len(&self) -> u8 {
-        4
+        6
     }
 
     fn opcode(&self) -> u8 {
@@ -133,7 +133,19 @@ impl Instruction for SUB {
     }
 
     fn opcode(&self) -> u8 {
-        0b0010
+        0b00010010
+    }
+}
+impl Instruction for SUBI {
+    fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
+        imm_math_instruction_execute(emulator, args, |a,b| a.wrapping_sub(b));
+    }
+    fn bytes_len(&self) -> u8 {
+        6
+    }
+
+    fn opcode(&self) -> u8 {
+        0b00010011
     }
 }
 impl Instruction for MUL {
@@ -145,7 +157,19 @@ impl Instruction for MUL {
     }
 
     fn opcode(&self) -> u8 {
-        0b0011
+        0b00010100
+    }
+}
+impl Instruction for MULI {
+    fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
+        imm_math_instruction_execute(emulator, args, |a,b| a.wrapping_mul(b));
+    }
+    fn bytes_len(&self) -> u8 {
+        6
+    }
+
+    fn opcode(&self) -> u8 {
+        0b00010101
     }
 }
 impl Instruction for DIV {
@@ -157,20 +181,19 @@ impl Instruction for DIV {
     }
 
     fn opcode(&self) -> u8 {
-        0b0100
+        0b00010110
     }
 }
-impl Instruction for NOT {
+impl Instruction for DIVI {
     fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
-        let a = emulator.registers[args.get_nibble(1) as usize];
-        emulator.registers[args.get_nibble(1) as usize] = !a;
+        imm_math_instruction_execute(emulator, args, |a,b| a.wrapping_div(b));
     }
     fn bytes_len(&self) -> u8 {
-        1
+        6
     }
 
     fn opcode(&self) -> u8 {
-        0b0110
+        0b00010111
     }
 }
 impl Instruction for MOD {
@@ -182,42 +205,18 @@ impl Instruction for MOD {
     }
 
     fn opcode(&self) -> u8 {
-        0b0111
+        0b00011000
     }
 }
-impl Instruction for AND {
+impl Instruction for MODI {
     fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
-        math_instruction_execute(emulator, args, |a,b| a&b);
+        imm_math_instruction_execute(emulator, args, |a,b| a.wrapping_rem(b));
     }
     fn bytes_len(&self) -> u8 {
-        4
+        6
     }
 
     fn opcode(&self) -> u8 {
-        0b1000
-    }
-}
-impl Instruction for OR {
-    fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
-        math_instruction_execute(emulator, args, |a,b| a|b);
-    }
-    fn bytes_len(&self) -> u8 {
-        4
-    }
-
-    fn opcode(&self) -> u8 {
-        0b1001
-    }
-}
-impl Instruction for XOR {
-    fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
-        math_instruction_execute(emulator, args, |a,b| a^b);
-    }
-    fn bytes_len(&self) -> u8 {
-        4
-    }
-
-    fn opcode(&self) -> u8 {
-        0b1010
+        0b00011001
     }
 }
