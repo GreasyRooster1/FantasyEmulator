@@ -101,6 +101,7 @@ impl Emulator {
             0b0100_1000 => Box::new(BRNEZ),
             0b0100_1001 => Box::new(CALL),
             0b0100_1010 => Box::new(RET),
+            0b0100_1011 => Box::new(HALT),
 
             _ => {println!("Unknown opcode {:#b}", opcode); Box::new(NOP)},
         }

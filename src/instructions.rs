@@ -118,6 +118,7 @@ pub struct BREZ;
 pub struct BRNEZ;
 pub struct CALL;
 pub struct RET;
+pub struct HALT;
 
 
 
@@ -639,6 +640,18 @@ impl Instruction for CALL {
 impl Instruction for RET {
     fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
         emulator.registers[PC_REGISTER]=emulator.registers[RA_REGISTER];
+    }
+    fn bytes_len(&self) -> u8 {
+        1
+    }
+
+    fn opcode(&self) -> u8 {
+        0b0100_1010
+    }
+}
+impl Instruction for HALT {
+    fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
+        emulator.halt();
     }
     fn bytes_len(&self) -> u8 {
         1
