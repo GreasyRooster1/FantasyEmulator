@@ -30,6 +30,10 @@ impl InstructionArgs {
         let nib_idx = i + 1;
         ((self.data >> (32 - nib_idx * 8)) & 0xFF) as u8
     }
+    pub fn get_u32(&self, i: u32) -> u32 {
+        let nib_idx = i + 1;
+        ((self.data >> (32 - nib_idx * 8)) & 0xFFFFFFFF) as u32
+    }
 }
 
 pub trait Instruction {
@@ -50,13 +54,28 @@ where
     emulator.registers[args.get_byte(3) as usize] = c;
 }
 
+pub fn imm_math_instruction_execute<F>(emulator: &mut Emulator, args: InstructionArgs, op:F)
+where
+    F: Fn(i32,i32) -> i32,
+{
+    let a = emulator.registers[args.get_byte(1) as usize];
+    let b = emulator.registers[args.get_u32(2) as usize];
+    let c = op(a,b);
+    emulator.registers[args.get_byte(1) as usize] = c;
+}
+
 pub struct NOP;
 pub struct ADD;
+pub struct ADDI;
 pub struct SUB;
+pub struct SUBI;
 pub struct MUL;
+pub struct MULI;
 pub struct DIV;
-pub struct REM;
-pub struct INC;
+pub struct DIVI;
+pub struct MOD;
+pub struct MODI;
+
 pub struct NOT;
 pub struct AND;
 pub struct OR;
@@ -79,6 +98,8 @@ impl Instruction for NOP {
         0b0000
     }
 }
+
+
 impl Instruction for ADD {
     fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
         math_instruction_execute(emulator, args, |a,b| a.wrapping_add(b));
@@ -89,6 +110,18 @@ impl Instruction for ADD {
 
     fn opcode(&self) -> u8 {
         0b00010000
+    }
+}
+impl Instruction for ADDI {
+    fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
+        imm_math_instruction_execute(emulator, args, |a,b| a.wrapping_add(b));
+    }
+    fn bytes_len(&self) -> u8 {
+        4
+    }
+
+    fn opcode(&self) -> u8 {
+        0b00010001
     }
 }
 impl Instruction for SUB {
