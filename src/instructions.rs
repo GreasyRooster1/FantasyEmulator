@@ -220,3 +220,28 @@ impl Instruction for MODI {
         0b00011001
     }
 }
+
+impl Instruction for AND {
+    fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
+        math_instruction_execute(emulator, args, |a,b| a & b);
+    }
+    fn bytes_len(&self) -> u8 {
+        4
+    }
+
+    fn opcode(&self) -> u8 {
+        0b0010_0000
+    }
+}
+impl Instruction for ANDI {
+    fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
+        imm_math_instruction_execute(emulator, args, |a,b| a & b);
+    }
+    fn bytes_len(&self) -> u8 {
+        6
+    }
+
+    fn opcode(&self) -> u8 {
+        0b0010_0000
+    }
+}
