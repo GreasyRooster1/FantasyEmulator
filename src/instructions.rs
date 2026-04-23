@@ -300,6 +300,19 @@ impl Instruction for XORI {
         0b0010_0101
     }
 }
+impl Instruction for NOT {
+    fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
+        let a = emulator.registers[args.get_byte(1) as usize];
+        emulator.registers[args.get_byte(2) as usize] = !a;
+    }
+    fn bytes_len(&self) -> u8 {
+        3
+    }
+
+    fn opcode(&self) -> u8 {
+        0b0010_0110
+    }
+}
 impl Instruction for RSH {
     fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
         math_instruction_execute(emulator, args, |a,b| a >> b);
@@ -338,7 +351,7 @@ impl Instruction for LSH {
 }
 impl Instruction for LSHI {
     fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
-        imm_math_instruction_execute(emulator, args, |a,b| a << b);
+        imm_math_instruction_execute(emulator, args, |a, b| a << b);
     }
     fn bytes_len(&self) -> u8 {
         6
