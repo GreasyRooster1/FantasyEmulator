@@ -53,6 +53,6 @@ pub fn get_byte_from_data(data: u128, i: u32) -> u8 {
         128 - nib_idx * 8,
         format!("{data:#b}")
     );
-    ((data >> (128 - nib_idx * *)) & 0xFF) as u8
+    ((data >> (128 - nib_idx * 8)) & 0xFF) as u8
 }
 
