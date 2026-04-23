@@ -99,10 +99,10 @@ pub struct RSHI;
 pub struct LSH;
 pub struct LSHI;
 
-pub struct LODW;
-pub struct LODH;
-pub struct LODB;
-pub struct LODI;
+pub struct STOW;
+pub struct STOH;
+pub struct STOB;
+pub struct STOI;
 pub struct STO;
 
 pub struct JMP;
@@ -394,7 +394,7 @@ impl Instruction for LSHI {
     }
 }
 
-impl Instruction for LODW {
+impl Instruction for STOW {
     fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
         let a = args.get_byte(1);
         let mem_loc = args.get_u32(2);
@@ -407,7 +407,37 @@ impl Instruction for LODW {
     }
 
     fn opcode(&self) -> u8 {
-        0b0100_0000
+        0b0011_0000
+    }
+}
+impl Instruction for STOH {
+    fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
+        let a = args.get_byte(1);
+        let mem_loc = args.get_u32(2);
+        for i in 0..2 {
+            emulator.physical_memory[(mem_loc + i) as usize] = get_byte_from_data(emulator.registers[a as usize] as u128,i);
+        }
+    }
+    fn bytes_len(&self) -> u8 {
+        6
+    }
+
+    fn opcode(&self) -> u8 {
+        0b0011_0001
+    }
+}
+impl Instruction for STOB {
+    fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
+        let a = args.get_byte(1);
+        let mem_loc = args.get_u32(2);
+        emulator.physical_memory[mem_loc as usize] =emulator.registers[a as usize] as u8;
+    }
+    fn bytes_len(&self) -> u8 {
+        6
+    }
+
+    fn opcode(&self) -> u8 {
+        0b0011_0010
     }
 }
 
