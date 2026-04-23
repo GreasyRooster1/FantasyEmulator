@@ -9,8 +9,8 @@ use bevy::sprite_render::Material2dPlugin;
 use crate::cpu::Emulator;
 use crate::screen::{setup_screen, update_screen, ScreenMaterial};
 
-const MEM_SIZE: usize = 65_535; //limited by 2 8bit bytes
-const ROM_SIZE: usize = 65_535; //limited by 2 8bit bytes
+const MEM_SIZE: usize = 65_535; // could be as large as an i32
+const ROM_SIZE: usize = 65_535; // could be as large as an i32
 const REGISTER_COUNT: usize = 256; // limited by asm arguments
 const PC_REGISTER: usize = 0xFF;
 const RA_REGISTER: usize = 0xFE;
