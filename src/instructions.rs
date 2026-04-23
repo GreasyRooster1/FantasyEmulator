@@ -517,7 +517,7 @@ impl Instruction for CALL {
         0b0100_1001
     }
 }
-impl Instruction for CALL {
+impl Instruction for RET {
     fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
         emulator.registers[PC_REGISTER]=emulator.registers[RA_REGISTER];
     }
