@@ -81,11 +81,14 @@ impl Emulator {
             0b0010_1001 => Box::new(LSH),
             0b0010_1010 => Box::new(LSHI),
 
-            0b0011_0000 => Box::new(LODW),
-            0b0011_0001 => Box::new(LODH),
-            0b0011_0010 => Box::new(LODB),
-            0b0011_0011 => Box::new(LODI),
-            0b0011_0100 => Box::new(STO),
+            0b0011_0000 => Box::new(STOW),
+            0b0011_0001 => Box::new(STOH),
+            0b0011_0010 => Box::new(STOB),
+            0b0011_0011 => Box::new(NOP), //placeholder
+            0b0011_0100 => Box::new(LODW),
+            0b0011_0101 => Box::new(LODH),
+            0b0011_0110 => Box::new(LODB),
+            0b0011_0111 => Box::new(LODI),
 
             0b0100_0000 => Box::new(JMP),
             0b0100_0001 => Box::new(BREQ),
@@ -98,15 +101,6 @@ impl Emulator {
             0b0100_1000 => Box::new(BRNEZ),
             0b0100_1001 => Box::new(CALL),
             0b0100_1010 => Box::new(RET),
-
-
-
-
-
-
-
-
-
 
             _ => {println!("Unknown opcode {:#b}", opcode); Box::new(NOP)},
         }
