@@ -160,20 +160,6 @@ impl Instruction for DIV {
         0b0100
     }
 }
-impl Instruction for INC {
-    fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
-        let a = emulator.registers[args.get_nibble(1) as usize];
-        let val = a.wrapping_add(1);
-        emulator.registers[args.get_nibble(1) as usize] = val;
-    }
-    fn bytes_len(&self) -> u8 {
-        1
-    }
-
-    fn opcode(&self) -> u8 {
-        0b0101
-    }
-}
 impl Instruction for NOT {
     fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
         let a = emulator.registers[args.get_nibble(1) as usize];
@@ -187,7 +173,7 @@ impl Instruction for NOT {
         0b0110
     }
 }
-impl Instruction for REM {
+impl Instruction for MOD {
     fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
         math_instruction_execute(emulator, args, |a,b| a.wrapping_rem(b));
     }
