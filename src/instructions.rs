@@ -1,5 +1,5 @@
 use crate::cpu::Emulator;
-use crate::{get_nibble_from_byte};
+use crate::{get_nibble_from_byte, PC_REGISTER, RA_REGISTER};
 
 pub struct InstructionArgs {
     data: u128,
@@ -64,6 +64,17 @@ where
     emulator.registers[args.get_byte(1) as usize] = c;
 }
 
+pub fn branch_instruction_execute<F>(emulator: &mut Emulator, args: InstructionArgs, op:F)
+where
+    F: Fn(i32,i32) -> bool,
+{
+    let a = emulator.registers[args.get_byte(1) as usize];
+    let b = emulator.registers[args.get_byte(2) as usize];
+    if op(a,b) {
+        emulator.registers[PC_REGISTER] = args.get_u32(3) as i32;
+    }
+}
+
 pub struct NOP;
 pub struct ADD;
 pub struct ADDI;
@@ -87,6 +98,21 @@ pub struct RSH;
 pub struct RSHI;
 pub struct LSH;
 pub struct LSHI;
+
+pub struct JMP;
+pub struct BREQ;
+pub struct BRNEQ;
+pub struct BRGT;
+pub struct BRGTE;
+pub struct BRLT;
+pub struct BRLTE;
+pub struct BREZ;
+pub struct BRNEZ;
+pub struct CALL;
+pub struct RET;
+
+
+
 
 impl Instruction for NOP {
     fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
@@ -359,5 +385,147 @@ impl Instruction for LSHI {
 
     fn opcode(&self) -> u8 {
         0b0010_1010
+    }
+}
+
+impl Instruction for JMP {
+    fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
+        let mem_loc = args.get_u32(1);
+        emulator.registers[PC_REGISTER]=mem_loc as i32;
+    }
+    fn bytes_len(&self) -> u8 {
+        5
+    }
+
+    fn opcode(&self) -> u8 {
+        0b0100_0000
+    }
+}
+impl Instruction for BREQ {
+    fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
+        branch_instruction_execute(emulator, args, |a,b| a==b);
+    }
+    fn bytes_len(&self) -> u8 {
+        7
+    }
+
+    fn opcode(&self) -> u8 {
+        0b0100_0001
+    }
+}
+impl Instruction for BRNEQ {
+    fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
+        branch_instruction_execute(emulator, args, |a,b| a!=b);
+    }
+    fn bytes_len(&self) -> u8 {
+        7
+    }
+
+    fn opcode(&self) -> u8 {
+        0b0100_0010
+    }
+}
+impl Instruction for BRGT {
+    fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
+        branch_instruction_execute(emulator, args, |a,b| a>b);
+    }
+    fn bytes_len(&self) -> u8 {
+        7
+    }
+
+    fn opcode(&self) -> u8 {
+        0b0100_0011
+    }
+}
+impl Instruction for BRGTE {
+    fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
+        branch_instruction_execute(emulator, args, |a,b| a>=b);
+    }
+    fn bytes_len(&self) -> u8 {
+        7
+    }
+
+    fn opcode(&self) -> u8 {
+        0b0100_0100
+    }
+}
+impl Instruction for BRLT {
+    fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
+        branch_instruction_execute(emulator, args, |a,b| a<b);
+    }
+    fn bytes_len(&self) -> u8 {
+        7
+    }
+
+    fn opcode(&self) -> u8 {
+        0b0100_0101
+    }
+}
+impl Instruction for BRLTE {
+    fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
+        branch_instruction_execute(emulator, args, |a,b| a<=b);
+    }
+    fn bytes_len(&self) -> u8 {
+        7
+    }
+
+    fn opcode(&self) -> u8 {
+        0b0100_0110
+    }
+}
+impl Instruction for BREZ {
+    fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
+        let a = emulator.registers[args.get_byte(1) as usize];
+        if a==0 {
+            emulator.registers[PC_REGISTER] = args.get_u32(2) as i32;
+        }
+    }
+    fn bytes_len(&self) -> u8 {
+        6
+    }
+
+    fn opcode(&self) -> u8 {
+        0b0100_0111
+    }
+}
+impl Instruction for BRNEZ {
+    fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
+        let a = emulator.registers[args.get_byte(1) as usize];
+        if a!=0 {
+            emulator.registers[PC_REGISTER] = args.get_u32(2) as i32;
+        }
+    }
+    fn bytes_len(&self) -> u8 {
+        6
+    }
+
+    fn opcode(&self) -> u8 {
+        0b0100_1000
+    }
+}
+impl Instruction for CALL {
+    fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
+        let mem_loc = args.get_u32(1);
+        emulator.registers[RA_REGISTER]=emulator.registers[PC_REGISTER];
+        emulator.registers[PC_REGISTER]=mem_loc as i32;
+    }
+    fn bytes_len(&self) -> u8 {
+        5
+    }
+
+    fn opcode(&self) -> u8 {
+        0b0100_1001
+    }
+}
+impl Instruction for CALL {
+    fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
+        emulator.registers[PC_REGISTER]=emulator.registers[RA_REGISTER];
+    }
+    fn bytes_len(&self) -> u8 {
+        1
+    }
+
+    fn opcode(&self) -> u8 {
+        0b0100_1010
     }
 }
