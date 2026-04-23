@@ -102,8 +102,10 @@ pub struct LSHI;
 pub struct STOW;
 pub struct STOH;
 pub struct STOB;
-pub struct STOI;
-pub struct STO;
+pub struct LODW;
+pub struct LODH;
+pub struct LODB;
+pub struct LODI;
 
 pub struct JMP;
 pub struct BREQ;
@@ -438,6 +440,70 @@ impl Instruction for STOB {
 
     fn opcode(&self) -> u8 {
         0b0011_0010
+    }
+}
+impl Instruction for LODW {
+    fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
+        let a = args.get_byte(1);
+        let mem_loc = args.get_u32(2);
+        let mut val: u32 = 0;
+        for i in 0..4 {
+            val += (emulator.physical_memory[(mem_loc + i) as usize] << i) as u32;
+        }
+        emulator.registers[a as usize] = val as i32;
+    }
+    fn bytes_len(&self) -> u8 {
+        6
+    }
+
+    fn opcode(&self) -> u8 {
+        0b0011_0100
+    }
+}
+impl Instruction for LODH {
+    fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
+        let a = args.get_byte(1);
+        let mem_loc = args.get_u32(2);
+        let mut val: u32 = 0;
+        for i in 0..2 {
+            val += (emulator.physical_memory[(mem_loc + i) as usize] << i) as u32;
+        }
+        emulator.registers[a as usize] = val as i32;
+    }
+    fn bytes_len(&self) -> u8 {
+        6
+    }
+
+    fn opcode(&self) -> u8 {
+        0b0011_0101
+    }
+}
+impl Instruction for LODB {
+    fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
+        let a = args.get_byte(1);
+        let mem_loc = args.get_u32(2);
+        emulator.registers[a as usize] = emulator.physical_memory[mem_loc as usize] as i32;
+    }
+    fn bytes_len(&self) -> u8 {
+        6
+    }
+
+    fn opcode(&self) -> u8 {
+        0b0011_0110
+    }
+}
+impl Instruction for LODI {
+    fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
+        let a = args.get_byte(1);
+        let imm = args.get_u32(2);
+        emulator.registers[a as usize] = imm as i32;
+    }
+    fn bytes_len(&self) -> u8 {
+        6
+    }
+
+    fn opcode(&self) -> u8 {
+        0b0011_0111
     }
 }
 
