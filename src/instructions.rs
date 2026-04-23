@@ -99,6 +99,12 @@ pub struct RSHI;
 pub struct LSH;
 pub struct LSHI;
 
+pub struct LODW;
+pub struct LODH;
+pub struct LODB;
+pub struct LODI;
+pub struct STO;
+
 pub struct JMP;
 pub struct BREQ;
 pub struct BRNEQ;
@@ -387,6 +393,8 @@ impl Instruction for LSHI {
         0b0010_1010
     }
 }
+
+
 
 impl Instruction for JMP {
     fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
