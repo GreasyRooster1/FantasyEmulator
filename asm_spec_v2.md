@@ -12,7 +12,11 @@
 
 ## Instruction Set
 ```
-00000000 -> NOP
+0000|0000 -> NOP
+0000|0001 -> DUMPMEM
+0000|0010 -> DUMPROM
+0000|0011 -> DBGREG
+
 ```
 
 

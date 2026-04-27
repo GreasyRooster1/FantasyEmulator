@@ -76,6 +76,10 @@ where
 }
 
 pub struct NOP;
+pub struct DUMPMEM;
+pub struct DUMPROM;
+pub struct DBGREG;
+
 pub struct ADD;
 pub struct ADDI;
 pub struct SUB;
@@ -137,9 +141,47 @@ impl Instruction for NOP {
     }
 
     fn opcode(&self) -> u8 {
-        0b0000
+        0b00000000
     }
 }
+impl Instruction for DUMPMEM {
+    fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
+        emulator.debug_memory_report();
+    }
+    fn bytes_len(&self) -> u8 {
+        1
+    }
+
+    fn opcode(&self) -> u8 {
+        0b0000_0001
+    }
+}
+impl Instruction for DUMPROM {
+    fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
+        emulator.debug_rom_report();
+    }
+    fn bytes_len(&self) -> u8 {
+        1
+    }
+
+    fn opcode(&self) -> u8 {
+        0b0000_0010
+    }
+}
+impl Instruction for DBGREG {
+    fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
+        dbg!(emulator.registers);
+    }
+    fn bytes_len(&self) -> u8 {
+        1
+    }
+
+    fn opcode(&self) -> u8 {
+        0b0000_0011
+    }
+}
+
+
 
 
 impl Instruction for ADD {
