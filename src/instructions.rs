@@ -29,12 +29,12 @@ impl InstructionArgs {
     }
     pub fn get_u32(&self, i: u32) -> u32 {
         let nib_idx = i + 4;
-        dbg!(
-            nib_idx,
-            128 - nib_idx * 8,
-            format!("{:#b}",self.data >> (128 - nib_idx * 8)),
-            format!("{:#b}",self.data >> (128 - nib_idx * 8) & 0xFFFFFFFF)
-        );
+        // dbg!(
+        //     nib_idx,
+        //     128 - nib_idx * 8,
+        //     format!("{:#b}",self.data >> (128 - nib_idx * 8)),
+        //     format!("{:#b}",self.data >> (128 - nib_idx * 8) & 0xFFFFFFFF)
+        // );
         ((self.data >> (128 - nib_idx * 8)) & 0xFFFFFFFF) as u32
     }
 }

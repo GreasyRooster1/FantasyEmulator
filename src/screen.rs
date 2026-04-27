@@ -79,7 +79,6 @@ pub fn update_screen(
     query: Query<&mut MeshMaterial2d<ScreenMaterial>, With<Screen>>,
     emulator:Res<Emulator>
 ) {
-    return;
     for handle in query.iter() {
         if let Some(material) = materials.get_mut(handle) {
             material.screen_data.data=package_screen_buffer(&emulator).as_slice().try_into().unwrap();
