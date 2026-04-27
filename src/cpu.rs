@@ -111,6 +111,7 @@ impl Emulator {
     }
 
     pub fn halt(&mut self){
+        println!("HALING CPU!");
         self.is_running = false;
     }
     pub fn running(&self) -> bool{
