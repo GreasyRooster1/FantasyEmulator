@@ -11,7 +11,6 @@ impl InstructionArgs {
         let total_bits = bytes.len() * 8;
         for i in 0..bytes.len() {
             let shift_num = (bytes.len() as i32 - i as i32).abs() as usize;
-            println!("{shift_num}");
             data += (bytes[i] as u128) << (128 - (i + 1) * 8);
         }
         //data = data << (32 - total_bits);
@@ -19,19 +18,24 @@ impl InstructionArgs {
     }
 
     pub fn opcode(&self) -> u8 {
-        (self.data >> 28) as u8
+        self.get_byte(0)
     }
 
     pub fn get_nibble(&self, i: u32) -> u8 {
         get_nibble_from_byte(self.data, i)
     }
     pub fn get_byte(&self, i: u32) -> u8 {
-        let nib_idx = i + 1;
-        ((self.data >> (32 - nib_idx * 8)) & 0xFF) as u8
+        get_byte_from_data(self.data,i)
     }
     pub fn get_u32(&self, i: u32) -> u32 {
-        let nib_idx = i + 1;
-        ((self.data >> (32 - nib_idx * 8)) & 0xFFFFFFFF) as u32
+        let nib_idx = i + 4;
+        dbg!(
+            nib_idx,
+            128 - nib_idx * 8,
+            format!("{:#b}",self.data >> (128 - nib_idx * 8)),
+            format!("{:#b}",self.data >> (128 - nib_idx * 8) & 0xFFFFFFFF)
+        );
+        ((self.data >> (128 - nib_idx * 8)) & 0xFFFFFFFF) as u32
     }
 }
 
@@ -533,6 +537,7 @@ impl Instruction for LODI {
     fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
         let a = args.get_byte(1);
         let imm = args.get_u32(2);
+        dbg!(imm);
         emulator.registers[a as usize] = imm as i32;
     }
     fn bytes_len(&self) -> u8 {

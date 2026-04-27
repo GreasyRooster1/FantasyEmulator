@@ -137,13 +137,13 @@ impl Emulator {
     }
 
     pub fn debug_memory_report(&self){
-        println!("starting debug memory report...");
+        println!("starting debug memory report at {} ...",self.registers[PC_REGISTER]);
         let mut file = File::create(DBG_MEM_REPORT_FILE).unwrap();
         file.write_all(&self.physical_memory).unwrap();
         println!("finished debug memory report at {DBG_MEM_REPORT_FILE}");
     }
     pub fn debug_rom_report(&self){
-        println!("starting debug rom report...");
+        println!("starting debug rom report at {} ...",self.registers[PC_REGISTER]);
         let mut file = File::create(DBG_ROM_REPORT_FILE).unwrap();
         file.write_all(&self.rom_disk).unwrap();
         println!("finished debug rom report at {DBG_ROM_REPORT_FILE}");
