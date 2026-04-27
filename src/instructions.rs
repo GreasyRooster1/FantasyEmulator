@@ -12,7 +12,7 @@ impl InstructionArgs {
         for i in 0..bytes.len() {
             let shift_num = (bytes.len() as i32 - i as i32).abs() as usize;
             println!("{shift_num}");
-            data += (bytes[i] as u128) << (32 - (i + 1) * 8);
+            data += (bytes[i] as u128) << (128 - (i + 1) * 8);
         }
         //data = data << (32 - total_bits);
         InstructionArgs { data }
@@ -23,7 +23,6 @@ impl InstructionArgs {
     }
 
     pub fn get_nibble(&self, i: u32) -> u8 {
-        dbg!(format!("{:#b}", self.data));
         get_nibble_from_byte(self.data, i)
     }
     pub fn get_byte(&self, i: u32) -> u8 {

@@ -38,8 +38,8 @@ impl Emulator {
 
     pub fn cpu_cycle(&mut self) {
         let pc_memory_value = self.physical_memory[self.registers[PC_REGISTER] as usize];
-        let opcode_nibble = pc_memory_value>>4;
-        let instruction = self.match_instruction_opcode(opcode_nibble);
+        let opcode = pc_memory_value;
+        let instruction = self.match_instruction_opcode(opcode);
 
         let instruction_len = instruction.bytes_len();
         let mut instruction_data: Vec<u8> = vec![];
@@ -57,6 +57,9 @@ impl Emulator {
     pub fn match_instruction_opcode(&self, opcode: u8) -> Box<dyn Instruction>{
         match opcode {
             0b0000_0000 => Box::new(NOP),
+            0b0000_0001 => Box::new(DUMPMEM),
+            0b0000_0010 => Box::new(DUMPROM),
+            0b0000_0011 => Box::new(DBGREG),
 
             0b0001_0000 => Box::new(ADD),
             0b0001_0001 => Box::new(ADDI),
@@ -103,7 +106,7 @@ impl Emulator {
             0b0100_1010 => Box::new(RET),
             0b0100_1011 => Box::new(HALT),
 
-            _ => {println!("Unknown opcode {:#b}", opcode); Box::new(NOP)},
+            _ => {println!("Unknown opcode {:#b} at {}", opcode,self.registers[PC_REGISTER]); Box::new(NOP)},
         }
     }
 

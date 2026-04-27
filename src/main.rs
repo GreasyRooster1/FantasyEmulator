@@ -38,11 +38,6 @@ fn cpu_cycle(mut emulator:ResMut<Emulator>){
 
 pub fn get_nibble_from_byte(data: u128, i: u32) -> u8 {
     let nib_idx = i + 1;
-    dbg!(
-        format!("{:#b}", data >> (128 - nib_idx * 4)),
-        32 - nib_idx * 4,
-        format!("{data:#b}")
-    );
     ((data >> (128 - nib_idx * 4)) & 0x0F) as u8
 }
 
