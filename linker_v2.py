@@ -93,15 +93,14 @@ def do_tag(line):
 address = 0
 with open('programs/'+sys.argv[1]+'.asm', 'r') as file:
     for line in file:
-        if line.startswith(";") or len(line.strip())<1:
+        if line.startswith("."):
+            do_tag(line)
+    for line in file:
+        if line.startswith(";") or len(line.strip())<1 or line.startswith("."):
             continue
 
         print(line.strip())
-
-        if line.startswith("."):
-            do_tag(line)
-        else:
-            do_instruct(line)
+        do_instruct(line)
 
 
 
