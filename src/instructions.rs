@@ -440,13 +440,13 @@ impl Instruction for LSHI {
 impl Instruction for STOW {
     fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
         let a = args.get_byte(1);
-        let mem_loc = args.get_u32(2);
+        let mem_loc = emulator.registers[args.get_byte(2) as usize] as usize;
         for i in 0..4 {
-            emulator.physical_memory[(mem_loc + i) as usize] = get_byte_from_data(emulator.registers[a as usize] as u128,i);
+            emulator.physical_memory[mem_loc+i] = get_byte_from_data(emulator.registers[a as usize] as u128,i as u32);
         }
     }
     fn bytes_len(&self) -> u8 {
-        6
+        3
     }
 
     fn opcode(&self) -> u8 {
@@ -456,13 +456,13 @@ impl Instruction for STOW {
 impl Instruction for STOH {
     fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
         let a = args.get_byte(1);
-        let mem_loc = args.get_u32(2);
+        let mem_loc = emulator.registers[args.get_byte(2) as usize] as usize;
         for i in 0..2 {
-            emulator.physical_memory[(mem_loc + i) as usize] = get_byte_from_data(emulator.registers[a as usize] as u128,i);
+            emulator.physical_memory[(mem_loc + i)] = get_byte_from_data(emulator.registers[a as usize] as u128,i as u32);
         }
     }
     fn bytes_len(&self) -> u8 {
-        6
+        3
     }
 
     fn opcode(&self) -> u8 {
@@ -472,11 +472,11 @@ impl Instruction for STOH {
 impl Instruction for STOB {
     fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
         let a = args.get_byte(1);
-        let mem_loc = args.get_u32(2);
-        emulator.physical_memory[mem_loc as usize] =emulator.registers[a as usize] as u8;
+        let mem_loc = emulator.registers[args.get_byte(2) as usize] as usize;
+        emulator.physical_memory[mem_loc] =emulator.registers[a as usize] as u8;
     }
     fn bytes_len(&self) -> u8 {
-        6
+        3
     }
 
     fn opcode(&self) -> u8 {
