@@ -59,14 +59,17 @@ tags = {}
 
 
 def do_instruct(line):
-    words = line.replace("_"," ").split()
+    global address,machine_code,tags,opcodes
+    words = line.split()
     opcode = opcodes[words[0]]
     args = []
     words.pop(0)
     for word in words:
-        word = word.replace("r","",1)
         if word.startswith("0x"):
             args.append(int(word[2:],16))
+        elif word.startswith("r"):
+            word = word.replace("r","",1)
+            args.append(int(word))
         elif word.startswith("b"):
             args.append(int(word[1:],2))
         elif word.startswith("."):
@@ -84,7 +87,7 @@ def do_instruct(line):
         machine_code.append(arg)
         address+=1
 
-def do_tag(line)
+def do_tag(line):
     tags[line] = address
 
 address = 0
