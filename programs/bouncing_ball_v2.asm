@@ -5,11 +5,24 @@
 ; r4 = bally dir
 ; r5 = screen w
 ; r6 = screen h
-; r7 = ball color
+; r7
 ; r8 = draw data
 
 LODI r0 0_0_0_1
-LODI r7 0 0 0 0xFF
+
+
+.loop
+
+LODI r8 0 0 0 0x00
+CALL .draw_ball
+CALL .bounce_x
+CALL .bounce_y
+CALL .move_ball
+LODI r8 0 0 0 0x77
+CALL .draw_ball
+
+JMP .loop
+
 
 .bounce_x
 BREQ r3 r0 .bounce_x_left
@@ -60,5 +73,4 @@ MUL r2 0 0 0 0x40
 ADD r100 r101 r100
 STOB r100 r8
 RET
-
 
