@@ -537,7 +537,7 @@ impl Instruction for LODI {
     fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
         let a = args.get_byte(1);
         let imm = args.get_u32(2);
-        dbg!(imm);
+        //dbg!(imm);
         emulator.registers[a as usize] = imm as i32;
     }
     fn bytes_len(&self) -> u8 {

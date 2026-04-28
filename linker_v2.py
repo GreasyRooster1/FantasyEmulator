@@ -87,14 +87,35 @@ def do_instruct(line):
         machine_code.append(arg)
         address+=1
 
-def do_tag(line):
-    tags[line] = address
+def calc_addr():
+    global address,machine_code,tags,opcodes
+    words = line.split()
+    args = []
+    words.pop(0)
+    for word in words:
+        if word.startswith("0x"):
+            address+=1
+        elif word.startswith("r"):
+            address+=1
+        elif word.startswith("b"):
+            address+=1
+        elif word.startswith("."):
+            address+=4
+        else:
+            address+=1
+    address+=1
 
 address = 0
 with open('programs/'+sys.argv[1]+'.asm', 'r') as file:
     for line in file:
+        if line.startswith(";") or len(line.strip())<1:
+            continue
         if line.startswith("."):
-            do_tag(line)
+            tags[line.strip()] = address
+            print(line.strip()+","+str(address))
+        else:
+            calc_addr()
+with open('programs/'+sys.argv[1]+'.asm', 'r') as file:
     for line in file:
         if line.startswith(";") or len(line.strip())<1 or line.startswith("."):
             continue
