@@ -18,17 +18,20 @@ LODI r6 0 0 0 0x80
 
 
 
-.loop
+;.loop
 
-;LODI r8 0 0 0 0x00
+LODI r8 0 0 0 0x77
 ;CALL .draw_ball
 ;CALL .bounce_x
 ;CALL .bounce_y
 ;CALL .move_ball
-LODI r8 0x77 0x77 0x77 0x77
-CALL .draw_ball
 
-JMP .loop
+DBGREG
+CALL .draw_ball
+DUMPMEM
+HALT
+
+;JMP .loop
 
 
 .bounce_x
@@ -73,7 +76,7 @@ RET
 ;r100: tmp mem loc
 ;r101: tmp y
 .draw_ball
-LODI r100 0x70 0x00 0x00 0x00
+LODI r100 0x00 0x00 0x70 0x00
 ADD r100 r1 r100
 ;64
 MUL r2 0 0 0 0x40

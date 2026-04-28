@@ -73,19 +73,19 @@ def do_instruct(line):
         elif word.startswith("b"):
             args.append(int(word[1:],2))
         elif word.startswith("."):
+            print(word+"-"+str(tags[word]))
             val = tags[word]
-            args.append(val & 0xFF000000)
-            args.append(val>>8 & 0x00FF0000)
-            args.append(val>>16 & 0x0000FF00)
-            args.append(val>>24 & 0x000000FF)
+            args.append((val & 0xFF000000) >>24)
+            args.append((val & 0x00FF0000) >>16)
+            args.append((val & 0x0000FF00) >>8)
+            args.append(val & 0x000000FF)
+            print(args[:4])
         else:
             args.append(int(word))
 
     machine_code.append(opcode)
-    address+=1
     for arg in args:
         machine_code.append(arg)
-        address+=1
 
 def calc_addr():
     global address,machine_code,tags,opcodes

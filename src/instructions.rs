@@ -667,7 +667,7 @@ impl Instruction for BRNEZ {
 impl Instruction for CALL {
     fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
         let mem_loc = args.get_u32(1);
-        emulator.registers[RA_REGISTER]=emulator.registers[PC_REGISTER];
+        emulator.registers[RA_REGISTER]=emulator.registers[PC_REGISTER]+self.bytes_len() as i32;
         emulator.registers[PC_REGISTER]=mem_loc as i32;
     }
     fn bytes_len(&self) -> u8 {
@@ -680,7 +680,7 @@ impl Instruction for CALL {
 }
 impl Instruction for RET {
     fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
-        emulator.registers[PC_REGISTER]=emulator.registers[RA_REGISTER];
+        emulator.registers[PC_REGISTER]=emulator.registers[RA_REGISTER]-self.bytes_len() as i32;
     }
     fn bytes_len(&self) -> u8 {
         1
