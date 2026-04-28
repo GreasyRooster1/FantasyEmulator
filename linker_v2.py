@@ -70,14 +70,19 @@ def do_instruct(line):
         elif word.startswith("b"):
             args.append(int(word[1:],2))
         elif word.startswith("."):
-            args.append(tags[word])
+            val = tags[word]
+            args.append(val & 0xFF000000)
+            args.append(val>>8 & 0x00FF0000)
+            args.append(val>>16 & 0x0000FF00)
+            args.append(val>>24 & 0x000000FF)
         else:
             args.append(int(word))
 
     machine_code.append(opcode)
-
+    address+=1
     for arg in args:
         machine_code.append(arg)
+        address+=1
 
 def do_tag(line)
     tags[line] = address
@@ -94,7 +99,6 @@ with open('programs/'+sys.argv[1]+'.asm', 'r') as file:
             do_tag(line)
         else:
             do_instruct(line)
-            address+=1
 
 
 
