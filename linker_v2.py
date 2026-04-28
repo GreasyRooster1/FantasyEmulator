@@ -94,7 +94,8 @@ with open('programs/'+sys.argv[1]+'.asm', 'r') as file:
             do_tag(line)
         else:
             do_instruct(line)
-        address+=1
+            address+=1
+
 
 
 byte_data = bytes(machine_code)

@@ -9,6 +9,8 @@
 LODI r0 0_0_0_1
 
 ; bounce x  0100
+.bounce_x
+
 BRANCH r3 == r0 1 12
 BRANCH r3 != r0 1 16
 ; 12
@@ -17,6 +19,7 @@ LODI r3 0_1
 LODI r3 0_0
 
 ; bounce y 0200
+.bounce_y
 BRANCH r4 == r0 2 12
 BRANCH r4 != r0 2 16
 ; 12
