@@ -6,6 +6,7 @@
 ; r5 = screen w
 ; r6 = screen h
 
+
 LODI r0 0_0_0_1
 
 .bounce_x
@@ -25,5 +26,19 @@ LODI r4 0_0_0_1
 LODI r4 0_0_0_0
 
 .move_ball
+BREQ r3 r0 .inc_x
+BREZ r3 .dec_x
+BREQ r4 r0 .inc_y
+BREZ r4 .dec_y
+.inc_x
+ADDI r1 0_0_0_1
+.dec_x
+SUBI r1 0_0_0_1
+.inc_y
+ADDI r2 0_0_0_1
+.dec_y
+SUBI r2 0_0_0_1
+
+.draw_ball
 
 
