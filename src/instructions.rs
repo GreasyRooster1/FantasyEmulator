@@ -197,10 +197,7 @@ impl Instruction for ADD {
 }
 impl Instruction for ADDI {
     fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
-        dbg!(emulator.registers[args.get_byte(1) as usize]);
         imm_math_instruction_execute(emulator, args.clone(), |a,b| a.wrapping_add(b));
-        dbg!(emulator.registers[args.get_byte(1) as usize]);
-        dbg!(16_i32.wrapping_add(1));
     }
     fn bytes_len(&self) -> u8 {
         6

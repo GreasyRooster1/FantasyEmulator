@@ -40,7 +40,7 @@ impl Emulator {
         let pc_memory_value = self.physical_memory[self.registers[PC_REGISTER] as usize];
         let opcode = pc_memory_value;
         let instruction = self.match_instruction_opcode(opcode);
-        dbg!(opcode);
+
         let instruction_len = instruction.bytes_len();
         let mut instruction_data: Vec<u8> = vec![];
         for i in 0..instruction.bytes_len() {

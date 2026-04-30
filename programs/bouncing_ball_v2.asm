@@ -5,7 +5,7 @@
 ; r4 = bally dir
 ; r5 = screen w
 ; r6 = screen h
-; r7
+; r7 = 0
 ; r8 = draw data
 
 LODI r0 0 0 0 1
@@ -23,13 +23,11 @@ LODI r6 0 0 0 0x80
 LODI r8 0x00 0 0 0x00
 CALL .draw_ball
 
-;CALL .bounce_x
-;CALL .bounce_y
-;CALL .move_ball_x
-;CALL .move_ball_y
-DBGREG r1
-ADDI r1 0 0 0 0x01
-DBGREG r1
+CALL .bounce_x
+CALL .bounce_y
+CALL .move_ball_x
+CALL .move_ball_y
+
 LODI r8 0x00 0 0 0x77
 CALL .draw_ball
 
@@ -39,8 +37,8 @@ JMP .loop
 HALT
 
 .bounce_x
-BREQ r3 r0 .bounce_x_left
-BREZ r3 .bounce_x_right
+BRLT r1 r7 .bounce_x_right
+BRGT r1 r5 .bounce_x_left
 .bounce_x_right
 LODI r3 0 0 0 1
 RET
@@ -50,8 +48,8 @@ RET
 
 
 .bounce_y
-BREQ r4 r0 .bounce_y_left
-BREZ r4 .bounce_y_right
+BRLT r2 r7 .bounce_y_right
+BRGT r2 r6 .bounce_y_left
 .bounce_y_right
 LODI r4 0 0 0 1
 RET
@@ -85,9 +83,8 @@ RET
 LODI r100 0x00 0x00 0x70 0x00
 ADD r100 r1 r100
 ;              64
-;MUL r2 r5 r101
-;ADD r100 r101 r100
+MUL r2 r5 r101
+ADD r100 r101 r100
 STOB r8 r100
-LODI r100 0 0 0 0
 RET
 
