@@ -1,6 +1,7 @@
 use crate::cpu::Emulator;
 use crate::{get_byte_from_data, get_nibble_from_byte, PC_REGISTER, RA_REGISTER};
 
+#[derive(Clone)]
 pub struct InstructionArgs {
     data: u128,
 }
@@ -62,7 +63,7 @@ where
     F: Fn(i32,i32) -> i32,
 {
     let a = emulator.registers[args.get_byte(1) as usize];
-    let b = emulator.registers[args.get_u32(2) as usize];
+    let b = args.get_u32(2) as i32;
     let c = op(a,b);
     emulator.registers[args.get_byte(1) as usize] = c;
 }
@@ -168,10 +169,10 @@ impl Instruction for DUMPROM {
 }
 impl Instruction for DBGREG {
     fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
-        dbg!(emulator.registers);
+        dbg!(emulator.registers[args.get_byte(1) as usize]);
     }
     fn bytes_len(&self) -> u8 {
-        1
+        2
     }
 
     fn opcode(&self) -> u8 {
@@ -196,7 +197,10 @@ impl Instruction for ADD {
 }
 impl Instruction for ADDI {
     fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
-        imm_math_instruction_execute(emulator, args, |a,b| a.wrapping_add(b));
+        dbg!(emulator.registers[args.get_byte(1) as usize]);
+        imm_math_instruction_execute(emulator, args.clone(), |a,b| a.wrapping_add(b));
+        dbg!(emulator.registers[args.get_byte(1) as usize]);
+        dbg!(16_i32.wrapping_add(1));
     }
     fn bytes_len(&self) -> u8 {
         6
@@ -667,7 +671,7 @@ impl Instruction for BRNEZ {
 impl Instruction for CALL {
     fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
         let mem_loc = args.get_u32(1);
-        emulator.registers[RA_REGISTER]=emulator.registers[PC_REGISTER]+self.bytes_len() as i32;
+        emulator.registers[RA_REGISTER]=emulator.registers[PC_REGISTER];
         emulator.registers[PC_REGISTER]=mem_loc as i32;
     }
     fn bytes_len(&self) -> u8 {
@@ -680,7 +684,7 @@ impl Instruction for CALL {
 }
 impl Instruction for RET {
     fn execute(&self, emulator: &mut Emulator, args: InstructionArgs) {
-        emulator.registers[PC_REGISTER]=emulator.registers[RA_REGISTER]-self.bytes_len() as i32;
+        emulator.registers[PC_REGISTER]=emulator.registers[RA_REGISTER] as i32;
     }
     fn bytes_len(&self) -> u8 {
         1

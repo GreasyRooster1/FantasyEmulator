@@ -40,7 +40,7 @@ impl Emulator {
         let pc_memory_value = self.physical_memory[self.registers[PC_REGISTER] as usize];
         let opcode = pc_memory_value;
         let instruction = self.match_instruction_opcode(opcode);
-
+        dbg!(opcode);
         let instruction_len = instruction.bytes_len();
         let mut instruction_data: Vec<u8> = vec![];
         for i in 0..instruction.bytes_len() {
@@ -106,7 +106,7 @@ impl Emulator {
             0b0100_1010 => Box::new(RET),
             0b0100_1011 => Box::new(HALT),
 
-            _ => {println!("Unknown opcode {:#b} at {}", opcode,self.registers[PC_REGISTER]); Box::new(NOP)},
+            _ => {println!("Unknown opcode {:#b} at loc:{}", opcode,self.registers[PC_REGISTER]); Box::new(NOP)},
         }
     }
 

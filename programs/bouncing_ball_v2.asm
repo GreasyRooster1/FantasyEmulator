@@ -18,21 +18,25 @@ LODI r6 0 0 0 0x80
 
 
 
-;.loop
+.loop
 
-LODI r8 0 0 0 0x77
-;CALL .draw_ball
+LODI r8 0x00 0 0 0x00
+CALL .draw_ball
+
 ;CALL .bounce_x
 ;CALL .bounce_y
-;CALL .move_ball
-
-DBGREG
+;CALL .move_ball_x
+;CALL .move_ball_y
+DBGREG r1
+ADDI r1 0 0 0 0x01
+DBGREG r1
+LODI r8 0x00 0 0 0x77
 CALL .draw_ball
-DUMPMEM
+
+JMP .loop
+
+;safety halt
 HALT
-
-;JMP .loop
-
 
 .bounce_x
 BREQ r3 r0 .bounce_x_left
@@ -55,17 +59,19 @@ RET
 LODI r4 0 0 0 0
 RET
 
-.move_ball
+.move_ball_x
 BREQ r3 r0 .inc_x
 BREZ r3 .dec_x
-BREQ r4 r0 .inc_y
-BREZ r4 .dec_y
 .inc_x
-ADDI r1 0 0 0 1
+ADDI r1 0 0 0 0x01
 RET
 .dec_x
-SUBI r1 0 0 0 1
+SUBI r1 0 0 0 0x01
 RET
+
+.move_ball_y
+BREQ r4 r0 .inc_y
+BREZ r4 .dec_y
 .inc_y
 ADDI r2 0 0 0 1
 RET
@@ -78,9 +84,10 @@ RET
 .draw_ball
 LODI r100 0x00 0x00 0x70 0x00
 ADD r100 r1 r100
-;64
-MUL r2 0 0 0 0x40
-ADD r100 r101 r100
-STOB r100 r8
+;              64
+;MUL r2 r5 r101
+;ADD r100 r101 r100
+STOB r8 r100
+LODI r100 0 0 0 0
 RET
 
